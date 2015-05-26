@@ -1,4 +1,4 @@
-// test/api/product.js
+// test/api/order.js
 'use strict';
 
 // force the test environment to 'test'
@@ -17,39 +17,37 @@ var testObj2Update;
 var lastInsertedId;
 
 //Testing
-describe('Products API', function () {
-
+describe('Order API', function () {
+  
   before( function (done) {
     
     testObj = {
-      name: 'Manzana',
-      category: 'fruits',
-      unit: ['Unidad','Peso'],
-      description: 'Es una manzana',
-      longDescription: 'Es una manzana especial',
-      images: [{ name: 'manzana01.jpg', text: 'texto de imagen'}],
-      price: [{ unit: 'Unidad', value: 2}, { unit: 'Peso', value: 15 }],
-      defWeight: 1,
-      delta: 0.25
+      user: '1',
+      products: [],
+      code: 1234,
+      gift: {},
+      subtotal: 12,
+      shipping: 5,
+      total: 17,
+      comments: 'Entregar temprano'
     };
     testObj2Update = {
-      name: 'Manzana de lujo',
-      category: 'fruits',
-      unit: ['Unidad','Peso'],
-      description: 'Es una manzana de lujo',
-      longDescription: 'Es una manzana especial y de lujo',
-      images: [{ name: 'manzana02.jpg', text: 'texto de imagen'}],
-      price: [{ unit: 'Unidad', value: 3}, { unit: 'Peso', value: 16 }],
-      defWeight: 1,
-      delta: 0.30
+      user: '1',
+      products: [],
+      code: 1235,
+      gift: {},
+      subtotal: 10,
+      shipping: 2,
+      total: 12,
+      comments: 'Entregar tarde'
     };
 
     return done();
   });
 
-  it('should save product data object', function (done) {
+  it('should save order data object', function (done) {
     supertest(app)
-      .post('/api/products')
+      .post('/api/orders')
       .send(testObj)
       .expect(201)
       .end(function(err, res) {
@@ -66,7 +64,7 @@ describe('Products API', function () {
         return done();
       });
   });
-
+  /*
   it('should get an array of products', function (done) {
     supertest(app)
       .get('/api/products')
@@ -136,5 +134,5 @@ describe('Products API', function () {
         return done();
       });
   });
-
+  */
 });

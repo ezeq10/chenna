@@ -59,7 +59,7 @@ app.use(function(req, res){
   res.status(404).send('Not Found');
 });
 
-// bootstrap
+// init server
 app.listen(port, function() {
   if(env !== 'production')
     console.log('Listening on port %d in %s mode.', this.address().port, env);  

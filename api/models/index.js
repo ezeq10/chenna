@@ -2,9 +2,8 @@
 'use strict';
 
 module.exports = function(mongoose) {
-
   return {
-    Product: require('./product')(mongoose)
+    Product:  require('./product')(mongoose),
+    Order:    require('./order')(mongoose)
   }
-
 };
