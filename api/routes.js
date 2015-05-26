@@ -3,7 +3,8 @@
 
 module.exports = function(app, router, controllers) {
 
-  // Products endpoints  
+  // Products endpoints
+  router.get('/api/products/search/:category', controllers.products.findAll)
   router.delete('/api/products/:product_id', controllers.products.delete)
   router.put('/api/products/:product_id', controllers.products.update)
   router.get('/api/products/:product_id', controllers.products.findById)  

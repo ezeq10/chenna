@@ -9,8 +9,12 @@ module.exports = function(app, models) {
       //console.log('[products.findAll] params: %s', JSON.stringify(req.params))      
       var filter = {};
 
-      models.Product.find(filter)        
-        .exec(function(err, data) {
+      if(req.params.category && req.params.category != 'null') {
+        filter.category = req.params.category;
+      }      
+      //console.log('[message.findAll] filter: %s',JSON.stringify(filter))
+
+      models.Product.find(filter).exec(function(err, data) {
           //console.log('data %s', JSON.stringify(data))
           if(err)
             return res.status(500).json({err: 'Internal server error'});        
