@@ -4,24 +4,51 @@
 // force the test environment to 'test'
 process.env.NODE_ENV = 'test';
 
-// load modules
+// load dependencies
 var supertest = require('supertest');
 var expect = require('chai').expect;
-  
-// require app
+var mongoose = require('mongoose');
+
+// server
 var app = require('../../server');
 
+// models
+var Product = mongoose.model('Product');
+var Order = mongoose.model('Order');
+
 // global datasets
-var testObj;
-var testObj2Update;
+var orderObj;
+var orderObj2Update;
 var lastInsertedId;
+var productObj;
+var productObjId;
 
 //Testing
 describe('Order API', function () {
   
   before( function (done) {
     
-    testObj = {
+    // create test product dataset
+    productObj = {
+      name: 'Manzana',
+      category: 'fruits',
+      unit: ['Unidad','Peso'],
+      description: 'Es una manzana',
+      longDescription: 'Es una manzana especial',
+      images: [{ name: 'manzana01.jpg', text: 'texto de imagen'}],
+      price: [{ unit: 'Unidad', value: 2}, { unit: 'Peso', value: 15 }],
+      defWeight: 1,
+      delta: 0.25
+    };
+    Product.create(productObj, function (err, data) {
+      if((err) && (! data))
+        done(err);
+
+      productObjId = data._id;
+      console.log('productObjId: %s', productObjId);
+    });
+
+    orderObj = {
       user: '1',
       products: [],
       code: 1234,
@@ -31,7 +58,7 @@ describe('Order API', function () {
       total: 17,
       comments: 'Entregar temprano'
     };
-    testObj2Update = {
+    orderObj2Update = {
       user: '1',
       products: [],
       code: 1235,
@@ -45,10 +72,10 @@ describe('Order API', function () {
     return done();
   });
 
-  it('should save order data object', function (done) {
+  it('should save an order data object', function (done) {
     supertest(app)
       .post('/api/orders')
-      .send(testObj)
+      .send(orderObj)
       .expect(201)
       .end(function(err, res) {
         if(err)
@@ -64,10 +91,10 @@ describe('Order API', function () {
         return done();
       });
   });
-  /*
-  it('should get an array of products', function (done) {
+  
+  it('should get an array of orders', function (done) {
     supertest(app)
-      .get('/api/products')
+      .get('/api/orders')
       .expect(200)
       .end(function(err, res) {
         if(err)
@@ -79,9 +106,9 @@ describe('Order API', function () {
       });
   });
   
-  it('should get a product object by id', function (done) {
+  it('should get an order object by id', function (done) {
     supertest(app)
-      .get('/api/products/'+ lastInsertedId)
+      .get('/api/orders/'+ lastInsertedId)
       .expect(200)
       .end(function(err, res) {
         if(err)
@@ -92,39 +119,24 @@ describe('Order API', function () {
         return done();
       });
   });
-
-  it('should update a product object', function(done) {
-    supertest(app)
-      .put('/api/products/'+ lastInsertedId)
-      .send(testObj2Update)
-      .expect('Content-Type', /json/)
-      .expect(200)
-      .end(function(err, res) {
-        if(err)
-          return done(err);
-      
-        return done();
-      });
-  });
   
-  it('should get a product object by specific category', function(done) {
+  it('should update an order object', function(done) {
     supertest(app)
-      .get('/api/products/search/fruits')
+      .put('/api/orders/'+ lastInsertedId)
+      .send(orderObj2Update)
       .expect('Content-Type', /json/)
       .expect(200)
       .end(function(err, res) {
         if(err)
           return done(err);
       
-        expect(res.body.data).to.exist;
-        expect(res.body.data[0]).to.have.property('_id');        
         return done();
       });
   });
 
-  it('should delete a product object', function(done) {
+  it('should delete an order object', function(done) {
     supertest(app)
-      .delete('/api/products/'+ lastInsertedId)
+      .delete('/api/orders/'+ lastInsertedId)
       .expect('Content-Type', /json/)
       .expect(200)
       .end(function(err, res) {
@@ -134,5 +146,9 @@ describe('Order API', function () {
         return done();
       });
   });
-  */
+
+  after(function(done) {
+    Order.remove().exec();
+    done();
+  });
 });

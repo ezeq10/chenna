@@ -4,16 +4,20 @@
 // force the test environment to 'test'
 process.env.NODE_ENV = 'test';
 
-// load modules
+// load dependencies
 var supertest = require('supertest');
 var expect = require('chai').expect;
-  
-// require app
+var mongoose = require('mongoose');  
+
+// server
 var app = require('../../server');
 
+// models
+var Product = mongoose.model('Product');
+
 // global datasets
-var testObj;
-var testObj2Update;
+var productObj;
+var productObj2Update;
 var lastInsertedId;
 
 //Testing
@@ -21,7 +25,7 @@ describe('Products API', function () {
 
   before( function (done) {
     
-    testObj = {
+    productObj = {
       name: 'Manzana',
       category: 'fruits',
       unit: ['Unidad','Peso'],
@@ -32,7 +36,7 @@ describe('Products API', function () {
       defWeight: 1,
       delta: 0.25
     };
-    testObj2Update = {
+    productObj2Update = {
       name: 'Manzana de lujo',
       category: 'fruits',
       unit: ['Unidad','Peso'],
@@ -50,7 +54,7 @@ describe('Products API', function () {
   it('should save product data object', function (done) {
     supertest(app)
       .post('/api/products')
-      .send(testObj)
+      .send(productObj)
       .expect(201)
       .end(function(err, res) {
         if(err)
@@ -98,7 +102,7 @@ describe('Products API', function () {
   it('should update a product object', function(done) {
     supertest(app)
       .put('/api/products/'+ lastInsertedId)
-      .send(testObj2Update)
+      .send(productObj2Update)
       .expect('Content-Type', /json/)
       .expect(200)
       .end(function(err, res) {
@@ -137,4 +141,10 @@ describe('Products API', function () {
       });
   });
 
+  /*
+  after(function(done) {
+    Product.remove().exec();
+    done();
+  });
+  */
 });
