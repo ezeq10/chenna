@@ -22,8 +22,8 @@ module.exports = function(mongoose) {
       email:      { type: String, max: 80 }
     },
     name:           { type: String, max: 80 },
-    admin:        { type: Boolean, default: 0 },
-    active:       { type: Boolean, default: 0 },
+    admin:        { type: Boolean, default: false },
+    active:       { type: Boolean, default: true },
     createdAt:    { type: Date, default: Date.now },
     lastLogin:    { type: Date }
   });
@@ -61,7 +61,8 @@ module.exports = function(mongoose) {
   userSchema.methods.generateToken = function(cb) {
     var token = jwt.sign({
                   created: this.createdAt,
-                  email: this.email
+                  email: this.email,
+                  admin: this.admin
                 }, cfg.secretKey, { expiresInMinutes: 60 });     
     
     return cb(null, token);

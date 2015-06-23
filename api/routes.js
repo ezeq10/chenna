@@ -1,63 +1,60 @@
 // routes.js
 'use strict';
 
+// load dependencies
+var jwt = require('jsonwebtoken');
+var cfg = require('../config/app');
+
 module.exports = function(app, router, controllers) {
-
-  // load dependencies
-  var jwt = require('jsonwebtoken');
-  var cfg = require('../config/app');
-
   /**
    * Auth (using JWT)
    */
   app.post('/register', controllers.auth.create);
   app.post('/login', controllers.auth.login);
 
-
-  /**
-   * Router middleware to verify a token
-   */
-  router.use(function(req, res, next) {    
-    var token = req.body.token || req.query.token || req.headers['x-access-token'];
-    if(token) {      
-      jwt.verify(token, cfg.secretKey, function(err, decoded) {
-        if (err) {
-          return res.status(403).json({ success: false, message: 'Failed to authenticate token' });    
-        } else {
-          // if everything is good, save to request for use in other routes
-          req.decoded = decoded;    
-          next();
-        }
-      });
-    } else {
-      return res.status(403).json({ success: false, message: 'No token provided'});
-    }
-  });
-
-
   /**
    * Products endpoints
    */
-  router.get('/api/products/search/:category', controllers.products.findAll)
-  router.delete('/api/products/:product_id', controllers.products.delete)
-  router.put('/api/products/:product_id', controllers.products.update)
-  router.get('/api/products/:product_id', controllers.products.findById)  
-  router.post('/api/products', controllers.products.add);
-  router.get('/api/products', controllers.products.findAll);
+  router.get('/api/products/search/:category', isAuthenticated, controllers.products.findAll);
+  router.delete('/api/products/:product_id', isAuthenticated, controllers.products.delete);
+  router.put('/api/products/:product_id', isAuthenticated, controllers.products.update);
+  router.get('/api/products/:product_id', isAuthenticated, controllers.products.findById);
+  router.post('/api/products', isAuthenticated, controllers.products.add);
+  router.get('/api/products', isAuthenticated, controllers.products.findAll);
 
   /**
    * Order endpoints
    */  
-  router.delete('/api/orders/:order_id', controllers.orders.delete)
-  router.put('/api/orders/:order_id', controllers.orders.update)
-  router.get('/api/orders/:order_id', controllers.orders.findById)  
-  router.post('/api/orders', controllers.orders.add);
-  router.get('/api/orders', controllers.orders.findAll);   
+  router.delete('/api/orders/:order_id', isAuthenticated, controllers.orders.delete);
+  router.put('/api/orders/:order_id', isAuthenticated, controllers.orders.update);
+  router.get('/api/orders/:order_id', isAuthenticated, controllers.orders.findById);  
+  router.post('/api/orders', isAuthenticated, controllers.orders.add);
+  router.get('/api/orders', isAuthenticated, controllers.orders.findAll);   
 
-  
   app.use(router);
 };
 
+
+/**
+ * Router middleware to verify a token
+ */
+function isAuthenticated(req, res, next) {
+  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+  if(token) {      
+    jwt.verify(token, cfg.secretKey, function(err, decoded) {
+      if (err) {
+        return res.status(403).json({ success: false, message: 'Failed to authenticate token' });    
+      } else {
+        // if everything is good, save to request for use in other routes
+        req.decoded = decoded;
+        //console.log(decoded)   
+        next();
+      }
+    });
+  } else {
+    return res.status(403).json({ success: false, message: 'No token provided'});
+  }
+}
 
 /*
 function isAuthenticated(req, res, next) {
