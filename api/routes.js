@@ -4,6 +4,13 @@
 module.exports = function(app, router, controllers) {
 
   /**
+   * Auth (using JWT)
+   */
+  router.post('/register', controllers.auth.create);
+  router.post('/login', controllers.auth.login);
+
+
+  /**
    * Products endpoints
    */
   router.get('/api/products/search/:category', controllers.products.findAll)

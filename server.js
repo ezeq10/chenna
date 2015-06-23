@@ -3,7 +3,10 @@
 // load modules
 var express = require('express');
 var mongoose = require('mongoose');
+var bcrypt = require('bcrypt');
+var jwt = require('jsonwebtoken');
 var logger = require('morgan');
+
 
 // middleware: parser
 var bodyParser = require('body-parser');
@@ -17,8 +20,8 @@ var port = process.env.NODE_PORT || 3000;
 var app = express();
 
 // mongoose init & connection
-var dbUrl = require('./config/database').db[env];
-mongoose.connect(dbUrl, function(err, res) {
+var dbUri = require('./config/database').db[env];
+mongoose.connect(dbUri, function(err, res) {
   if(err) {
     console.log('[db] error connecting: ' + err);
     process.exit(0);
@@ -29,6 +32,8 @@ mongoose.connect(dbUrl, function(err, res) {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride());
+app.use(express.static(__dirname + '/app'));
+app.disable('x-powered-by');
 
 // env settings
 if (env === 'production') {
@@ -40,9 +45,6 @@ if (env === 'development') {
 if (env === 'test') {
   mongoose.set('debug', true);
 }
-
-// secutiry settings
-app.disable('x-powered-by');
 
 // models
 var models = require('./api/models')(mongoose);
