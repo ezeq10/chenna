@@ -7,7 +7,6 @@ var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 var logger = require('morgan');
 
-
 // middleware: parser
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
@@ -43,7 +42,7 @@ if (env === 'development') {
   app.use(logger('dev'));
 }
 if (env === 'test') {
-  mongoose.set('debug', true);
+  //mongoose.set('debug', true);
 }
 
 // models

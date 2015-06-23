@@ -14,17 +14,20 @@ var app = require('../../server');
 
 // models
 var Product = mongoose.model('Product');
-
-// global datasets
-var productObj;
-var productObj2Update;
-var lastInsertedId;
+var User = mongoose.model('User');
 
 //Testing
 describe('Products API', function () {
 
+  var lastInsertedId;
+  var token = null;
+
+  // datasets
+  var productObj;
+  var productObj2Update;  
+
   before( function (done) {
-    
+
     productObj = {
       name: 'Manzana',
       category: 'fruits',
@@ -48,13 +51,31 @@ describe('Products API', function () {
       delta: 0.30
     };
 
-    return done();
+    // create test user
+    var userObj = {
+      email: 'user1@user1.com',
+      password: 'password'
+    };
+    // get user token
+    supertest(app)
+      .post('/register')
+      .send(userObj)
+      .expect(201)
+      .end(function(err, res) {
+        if(err)
+          return done(err);
+        
+        token = res.body.token;
+        return done();
+      });    
   });
+
 
   it('should save product data object', function (done) {
     supertest(app)
       .post('/api/products')
-      .send(productObj)
+      .set('x-access-token', token)
+      .send(productObj)      
       .expect(201)
       .end(function(err, res) {
         if(err)
@@ -74,6 +95,7 @@ describe('Products API', function () {
   it('should get an array of products', function (done) {
     supertest(app)
       .get('/api/products')
+      .set('x-access-token', token)
       .expect(200)
       .end(function(err, res) {
         if(err)
@@ -88,6 +110,7 @@ describe('Products API', function () {
   it('should get a product object by id', function (done) {
     supertest(app)
       .get('/api/products/'+ lastInsertedId)
+      .set('x-access-token', token)
       .expect(200)
       .end(function(err, res) {
         if(err)
@@ -102,6 +125,7 @@ describe('Products API', function () {
   it('should update a product object', function(done) {
     supertest(app)
       .put('/api/products/'+ lastInsertedId)
+      .set('x-access-token', token)
       .send(productObj2Update)
       .expect('Content-Type', /json/)
       .expect(200)
@@ -116,6 +140,7 @@ describe('Products API', function () {
   it('should get a product object by specific category', function(done) {
     supertest(app)
       .get('/api/products/search/fruits')
+      .set('x-access-token', token)
       .expect('Content-Type', /json/)
       .expect(200)
       .end(function(err, res) {
@@ -131,6 +156,7 @@ describe('Products API', function () {
   it('should delete a product object', function(done) {
     supertest(app)
       .delete('/api/products/'+ lastInsertedId)
+      .set('x-access-token', token)
       .expect('Content-Type', /json/)
       .expect(200)
       .end(function(err, res) {
@@ -141,10 +167,11 @@ describe('Products API', function () {
       });
   });
 
-  /*
+  
   after(function(done) {
-    Product.remove().exec();
+    //Product.remove().exec();
+    User.remove().exec();
     done();
   });
-  */
+  
 });

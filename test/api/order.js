@@ -15,17 +15,20 @@ var app = require('../../server');
 // models
 var Product = mongoose.model('Product');
 var Order = mongoose.model('Order');
-
-// global datasets
-var orderObj;
-var orderObj2Update;
-var lastInsertedId;
-var productObj;
-var productObjId;
+var User = mongoose.model('User');
 
 //Testing
 describe('Order API', function () {
   
+  var lastInsertedId;
+  var token = null;
+
+  // datasets
+  var orderObj;
+  var orderObj2Update;  
+  var productObj;
+  var productObjId;
+
   before( function (done) {
     
     // create test product dataset
@@ -45,7 +48,7 @@ describe('Order API', function () {
         done(err);
 
       productObjId = data._id;
-      console.log('productObjId: %s', productObjId);
+      //console.log('productObjId: %s', productObjId);
     });
 
     orderObj = {
@@ -69,12 +72,29 @@ describe('Order API', function () {
       comments: 'Entregar tarde'
     };
 
-    return done();
+    // create test user
+    var userObj = {
+      email: 'user1@user1.com',
+      password: 'password'
+    };
+    // get user token
+    supertest(app)
+      .post('/register')
+      .send(userObj)
+      .expect(201)
+      .end(function(err, res) {
+        if(err)
+          return done(err);
+        
+        token = res.body.token;        
+        return done();
+      });
   });
 
   it('should save an order data object', function (done) {
     supertest(app)
       .post('/api/orders')
+      .set('x-access-token', token)
       .send(orderObj)
       .expect(201)
       .end(function(err, res) {
@@ -95,6 +115,7 @@ describe('Order API', function () {
   it('should get an array of orders', function (done) {
     supertest(app)
       .get('/api/orders')
+      .set('x-access-token', token)
       .expect(200)
       .end(function(err, res) {
         if(err)
@@ -109,6 +130,7 @@ describe('Order API', function () {
   it('should get an order object by id', function (done) {
     supertest(app)
       .get('/api/orders/'+ lastInsertedId)
+      .set('x-access-token', token)
       .expect(200)
       .end(function(err, res) {
         if(err)
@@ -123,6 +145,7 @@ describe('Order API', function () {
   it('should update an order object', function(done) {
     supertest(app)
       .put('/api/orders/'+ lastInsertedId)
+      .set('x-access-token', token)
       .send(orderObj2Update)
       .expect('Content-Type', /json/)
       .expect(200)
@@ -137,6 +160,7 @@ describe('Order API', function () {
   it('should delete an order object', function(done) {
     supertest(app)
       .delete('/api/orders/'+ lastInsertedId)
+      .set('x-access-token', token)
       .expect('Content-Type', /json/)
       .expect(200)
       .end(function(err, res) {
@@ -149,6 +173,7 @@ describe('Order API', function () {
 
   after(function(done) {
     Order.remove().exec();
+    User.remove().exec();
     done();
   });
 });

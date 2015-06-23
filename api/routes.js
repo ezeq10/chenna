@@ -3,11 +3,36 @@
 
 module.exports = function(app, router, controllers) {
 
+  // load dependencies
+  var jwt = require('jsonwebtoken');
+  var cfg = require('../config/app');
+
   /**
    * Auth (using JWT)
    */
-  router.post('/register', controllers.auth.create);
-  router.post('/login', controllers.auth.login);
+  app.post('/register', controllers.auth.create);
+  app.post('/login', controllers.auth.login);
+
+
+  /**
+   * Router middleware to verify a token
+   */
+  router.use(function(req, res, next) {    
+    var token = req.body.token || req.query.token || req.headers['x-access-token'];
+    if(token) {      
+      jwt.verify(token, cfg.secretKey, function(err, decoded) {
+        if (err) {
+          return res.status(403).json({ success: false, message: 'Failed to authenticate token' });    
+        } else {
+          // if everything is good, save to request for use in other routes
+          req.decoded = decoded;    
+          next();
+        }
+      });
+    } else {
+      return res.status(403).json({ success: false, message: 'No token provided'});
+    }
+  });
 
 
   /**
@@ -29,10 +54,17 @@ module.exports = function(app, router, controllers) {
   router.post('/api/orders', controllers.orders.add);
   router.get('/api/orders', controllers.orders.findAll);   
 
-
+  
   app.use(router);
 };
 
+
+/*
+function isAuthenticated(req, res, next) {
+  jwt({secret: cfg.secretKey});
+  next();
+}
+*/
 /*
 function requireAuthentication(req, res, next) {
   var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
