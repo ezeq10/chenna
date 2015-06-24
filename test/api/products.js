@@ -169,7 +169,7 @@ describe('Products API', function () {
 
   
   after(function(done) {
-    //Product.remove().exec();
+    Product.remove().exec();
     User.remove().exec();
     done();
   });

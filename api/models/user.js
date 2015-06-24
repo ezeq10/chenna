@@ -21,8 +21,8 @@ module.exports = function(mongoose) {
       tokens:     { type: String, max: 80 },
       email:      { type: String, max: 80 }
     },
-    name:           { type: String, max: 80 },
-    admin:        { type: Boolean, default: false },
+    name:         { type: String, max: 80 },
+    isAdmin:      { type: Boolean, default: false },
     active:       { type: Boolean, default: true },
     createdAt:    { type: Date, default: Date.now },
     lastLogin:    { type: Date }
@@ -62,7 +62,7 @@ module.exports = function(mongoose) {
     var token = jwt.sign({
                   created: this.createdAt,
                   email: this.email,
-                  admin: this.admin
+                  isAdmin: this.isAdmin
                 }, cfg.secretKey, { expiresInMinutes: 60 });     
     
     return cb(null, token);

@@ -6,7 +6,7 @@ module.exports = function(app, models) {
     auth:     require('./auth')(app, models),
     products: require('./products')(app, models),
     orders:   require('./orders')(app, models),
-
+    admin:    require('./admin/admin')(app, models),
   }
 
 };

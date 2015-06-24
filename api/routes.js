@@ -12,8 +12,17 @@ module.exports = function(app, router, controllers) {
   app.post('/register', controllers.auth.create);
   app.post('/login', controllers.auth.login);
 
+
   /**
-   * Products endpoints
+   * Admin routes
+   */
+  router.get('/admin', isAuthenticated, isAuthorized, controllers.admin.index);
+  
+
+
+
+  /**
+   * Products API endpoints
    */
   router.get('/api/products/search/:category', isAuthenticated, controllers.products.findAll);
   router.delete('/api/products/:product_id', isAuthenticated, controllers.products.delete);
@@ -23,13 +32,13 @@ module.exports = function(app, router, controllers) {
   router.get('/api/products', isAuthenticated, controllers.products.findAll);
 
   /**
-   * Order endpoints
+   * Orders API endpoints
    */  
   router.delete('/api/orders/:order_id', isAuthenticated, controllers.orders.delete);
   router.put('/api/orders/:order_id', isAuthenticated, controllers.orders.update);
   router.get('/api/orders/:order_id', isAuthenticated, controllers.orders.findById);  
   router.post('/api/orders', isAuthenticated, controllers.orders.add);
-  router.get('/api/orders', isAuthenticated, controllers.orders.findAll);   
+  router.get('/api/orders', isAuthenticated, controllers.orders.findAll);
 
   app.use(router);
 };
@@ -39,7 +48,7 @@ module.exports = function(app, router, controllers) {
  * Router middleware to check authentication
  */
 function isAuthorized(req, res, next) {
-  if(req.decoded.admin)
+  if(req.decoded.isAdmin)
     next();
   else
     return res.status(401).json({ success: false, message: 'Unauthorized'});
