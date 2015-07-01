@@ -11,28 +11,20 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 
-// get variables env
+// get env vars
 var env = process.env.NODE_ENV || 'development';
 var port = process.env.NODE_PORT || 3000;
 
 // app init
 var app = express();
 
-// mongoose init & connection
-var dbUri = require('./config/database').db[env];
-mongoose.connect(dbUri, function(err, res) {
-  if(err) {
-    console.log('[db] error connecting: ' + err);
-    process.exit(0);
-  }
-});
-
 // express settings
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride());
-app.use(express.static(__dirname + '/public'));
 app.disable('x-powered-by');
+app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public/views'));
 
 // env settings
 if (env === 'production') {
@@ -44,6 +36,15 @@ if (env === 'development') {
 if (env === 'test') {
   //mongoose.set('debug', true);
 }
+
+// mongoose init & connection
+var dbUri = require('./config/database').db[env];
+mongoose.connect(dbUri, function(err, res) {
+  if(err) {
+    console.log('[db] error connecting: ' + err);
+    process.exit(0);
+  }
+});
 
 // models
 var models = require('./app/models')(mongoose);

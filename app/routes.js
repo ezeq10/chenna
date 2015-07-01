@@ -5,18 +5,7 @@
 var auth = require('./middleware/auth');
 
 module.exports = function(app, router, controllers) {
-  /**
-   * Auth (using JWT)
-   */
-  app.post('/register', controllers.auth.create);
-  app.post('/login', controllers.auth.login);
-
-  /**
-   * Admin routes
-   */
-  router.get('/admin', auth.isAuthenticated, auth.isAuthorized, controllers.admin.index);
   
-
   /**
    * Products API endpoints
    */
@@ -35,6 +24,25 @@ module.exports = function(app, router, controllers) {
   router.get('/api/orders/:order_id', auth.isAuthenticated, controllers.orders.findById);  
   router.post('/api/orders', auth.isAuthenticated, controllers.orders.add);
   router.get('/api/orders', auth.isAuthenticated, controllers.orders.findAll);
+
+
+  /**
+   * Auth (using JWT)
+   */
+  app.post('/register', controllers.auth.create);
+  app.post('/login', controllers.auth.login);
+
+  /**
+   * Admin routes
+   */
+  router.get('/admin', auth.isAuthenticated, auth.isAuthorized, controllers.admin.index);
+
+  /**
+   * Main route
+   */
+  router.get('/', function(req, res) { 
+    res.sendFile('index.html');
+  });
 
   app.use(router);
 };
