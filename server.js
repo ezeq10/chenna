@@ -31,7 +31,7 @@ mongoose.connect(dbUri, function(err, res) {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride());
-app.use(express.static(__dirname + '/app'));
+app.use(express.static(__dirname + '/public'));
 app.disable('x-powered-by');
 
 // env settings
@@ -46,14 +46,14 @@ if (env === 'test') {
 }
 
 // models
-var models = require('./api/models')(mongoose);
+var models = require('./app/models')(mongoose);
 
 // controllers
-var controllers = require('./api/controllers')(app, models);
+var controllers = require('./app/controllers')(app, models);
 
 // routes
 var router = express.Router();
-var routes = require('./api/routes')(app, router, controllers);
+var routes = require('./app/routes')(app, router, controllers);
 
 // catch 404 and forward to error handler
 app.use(function(req, res){

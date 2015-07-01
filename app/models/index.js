@@ -1,4 +1,4 @@
-// api/models/index.js
+// app/models/index.js
 'use strict';
 
 module.exports = function(mongoose) {

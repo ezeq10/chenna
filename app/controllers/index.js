@@ -1,4 +1,4 @@
-// api/controllers/index.js
+// app/controllers/index.js
 'use strict';
 
 module.exports = function(app, models) {  

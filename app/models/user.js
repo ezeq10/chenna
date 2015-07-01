@@ -1,4 +1,4 @@
-// api/models/user.js
+// app/models/user.js
 'use strict';
 
 // load dependencies

@@ -1,4 +1,4 @@
-// api/controllers/orders.js
+// app/controllers/orders.js
 'use strict';
 
 module.exports = function(app, models) {

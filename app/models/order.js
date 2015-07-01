@@ -1,4 +1,4 @@
-// api/models/order.js
+// app/models/order.js
 'use strict';
 
 module.exports = function(mongoose) {

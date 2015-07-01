@@ -1,4 +1,4 @@
-// api/models/product.js
+// app/models/product.js
 'use strict';
 
 module.exports = function(mongoose) {

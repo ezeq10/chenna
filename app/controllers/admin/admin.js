@@ -1,4 +1,4 @@
-// api/controllers/admin/admin.js
+// app/controllers/admin/admin.js
 'use strict';
 
 module.exports = function(app, models) {
