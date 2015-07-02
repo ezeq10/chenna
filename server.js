@@ -23,8 +23,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride());
 app.disable('x-powered-by');
-app.use(express.static(__dirname + '/public'));
-app.use(express.static(__dirname + '/public/views'));
+
+// template settings
+app.engine('.html', require('ejs').__express);
+app.set('view engine', 'html');
+app.set('views',__dirname+'/public/views')
 
 // env settings
 if (env === 'production') {

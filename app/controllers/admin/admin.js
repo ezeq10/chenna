@@ -9,12 +9,7 @@ module.exports = function(app, models) {
   return {
 
     index: function(req, res) {
-
-      if (req.method === 'GET') {
-        return res.status(200).json({ message: 'GET' });
-      } else {
-        return res.status(200).json({ message: 'POST' });
-      }
+      return res.render('admin/main');
     }
   }
 };
