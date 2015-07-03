@@ -21,7 +21,6 @@ $(document).ready(function() {
       dataType: 'json',
       encode: true
     }).done(function(data) {      
-      console.log(data)
       if(data.token) {
         localStorage.setItem('userToken', data.token);
         showLoginBox();
@@ -47,10 +46,11 @@ $(document).ready(function() {
       dataType: 'json',
       encode: true
     }).done(function(data) {      
+      
       if(data.token) {
         localStorage.setItem('userToken', data.token);
         userProfile = data.profile;
-
+        // show user data
         showUserBox(userProfile);
 
       } else {

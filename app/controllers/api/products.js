@@ -6,7 +6,7 @@ module.exports = function(app, models) {
   return {
 
     findAll: function(req, res) {
-      //console.log('[products.findAll] params: %s', JSON.stringify(req.params))      
+      console.log('[products.findAll] params: %s', JSON.stringify(req.params))      
       var filter = {};
 
       if(req.params.category && req.params.category != 'null') {

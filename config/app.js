@@ -1,7 +1,6 @@
 // config/db.js
 
-var secretKey = process.env.SECRET_KEY;
-
 module.exports = {
-  secretKey: secretKey || 'palabrasecreta'
+  secretKey: process.env.SECRET_KEY || 'palabrasecreta',
+  api:       process.env.SECRET_KEY || 'http://localhost:3000/api'
 };

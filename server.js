@@ -5,6 +5,7 @@ var express = require('express');
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
+var request = require('request-promise');
 var logger = require('morgan');
 
 // middleware: parser

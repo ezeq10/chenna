@@ -3,10 +3,11 @@
 
 module.exports = function(app, models) {  
   return {
-    auth:     require('./auth')(app, models),
-    products: require('./products')(app, models),
-    orders:   require('./orders')(app, models),
-    admin:    require('./admin/admin')(app, models),
+    auth:             require('./api/auth')(app, models),
+    products:         require('./api/products')(app, models),
+    orders:           require('./api/orders')(app, models),
+    admin:            require('./admin/dashboard')(app, models),
+    admin_products:   require('./admin/products')(app, models),
   }
 
 };
