@@ -21,10 +21,10 @@ exports.isAuthorized = function(req, res, next) {
  * Router middleware to check authentication
  */
 exports.isAuthenticated = function(req, res, next) {
-  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+  var token = req.body.token || req.query.token || req.headers['x-access-token'];    
   if(token) {      
     var decoded = _this.verifyToken(token, function(err, decoded) {
-      if(! decoded) {          
+      if(! decoded) {
         return res.status(403).json({ success: false, message: 'Failed to authenticate token' });
       } else {
         // if everything is good, save to request for use in other routes          
@@ -40,7 +40,7 @@ exports.isAuthenticated = function(req, res, next) {
 /**
  * JWT check
  */
-exports.verifyToken = function(token, cb) {    
+exports.verifyToken = function(token, cb) {  
   jwt.verify(token, cfg.secretKey, function(err, decoded) {
     if (err) {
       return cb(true, null);   
