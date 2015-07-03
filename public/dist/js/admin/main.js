@@ -3,8 +3,9 @@ $(document).ready(function() {
   // add token to each ajax call
   $.ajaxSetup({
     beforeSend: function(xhr) {
+      xhr.url = window.location;
       if (localStorage.getItem('userToken')) {
-        console.log(localStorage.getItem('userToken'))
+        //console.log(localStorage.getItem('userToken'))
         xhr.setRequestHeader('x-access-token', localStorage.getItem('userToken'));
       }
     }

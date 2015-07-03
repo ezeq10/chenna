@@ -15,6 +15,7 @@ module.exports = function(mongoose) {
     price:            [{ unit: { type: String }, value: { type: Number } }],
     defaultWeight:    { type: Number },
     delta:            { type: Number },
+    stock:            { type: Number },
     isEnabled:        { type: Boolean, required: true, default: true },
     createdAt:        { type: Date, default: Date.now }
   });
