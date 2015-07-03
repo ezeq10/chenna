@@ -23,44 +23,133 @@
         </ul>
       </div>
     </nav>
-    
-    <!-- Login form -->
-    <div id="login_box" class="col-sm-6">
-      <h3><span class="fa fa-sign-in"></span> Login</h3>
-      <form action="/login" method="post">
-        <div class="form-group">
-            <label>Email</label>
-            <input type="text" class="form-control" name="email">
-        </div>
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" class="form-control" name="password">
-        </div>
-         <div class="form-group">
-            <label>Token</label>
-            <input type="text" class="form-control" name="token">
-        </div>
-        <button type="submit" class="btn btn-warning btn-lg">Login</button>
-      </form>
-      <hr>
-      <p>Need an account? <a href="/register">Signup</a></p>
-    </div>
 
-    <!-- Register form -->
-    <div id="register_box" class="col-sm-6">
-      <h3><span class="fa fa-sign-in"></span> Register</h3>
-      <form action="/register" method="post">
-        <div class="form-group">
-            <label>Email</label>
-            <input type="text" class="form-control" name="email">
-        </div>
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" class="form-control" name="password">
-        </div>
-        <button type="submit" class="btn btn-warning btn-lg">Register</button>
-      </form>
+    <div id="main">
+      <div id="sidebar" class="col-sm-3">
+        <div id="login-box"><% include login.html %></div>
+        <div id="register-box" class="hidden"><% include register.html %></div>
+      </div>
+      <div id="content"></div>
     </div>
+    
   </div>
 </body>
 </html>
+
+<script language="javascript">
+$(document).ready(function() {
+  
+  var userProfile;
+
+  // add token to each ajax call
+  $.ajaxSetup({
+    beforeSend: function(xhr) {
+      if (localStorage.getItem('userToken')) {
+        xhr.setRequestHeader('x-access-token', 'Bearer ' + localStorage.getItem('userToken'));
+      }
+    }
+  });
+
+  // submit register form
+  $("#register-form").on('submit',function(e) {    
+    var formData = $(this).serialize();        
+    $.ajax({
+      type: 'POST',
+      url: '/register',
+      data: formData,
+      dataType: 'json',
+      encode: true
+    }).done(function(data) {      
+      console.log(data)
+      if(data.token) {
+        localStorage.setItem('userToken', data.token);
+        showLoginBox();
+      } else {
+        console.error('Unable to get token');
+      }
+
+    }).fail(function(err) {
+      console.error(err.responseJSON);
+    });
+
+    e.preventDefault();
+  });
+
+
+  // submit login form
+  $("#login-form").on('submit',function(e) {    
+    var formData = $(this).serialize();
+    $.ajax({
+      type: 'POST',
+      url: '/login',
+      data: formData,
+      dataType: 'json',
+      encode: true
+    }).done(function(data) {      
+      if(data.token) {
+        localStorage.setItem('userToken', data.token);
+        userProfile = data.profile;
+
+        showUserBox(userProfile);
+
+      } else {
+        console.error('Unable to get token');
+      }
+
+    }).fail(function(err) {
+      console.error(err.responseJSON);
+    });
+
+    e.preventDefault();
+  });
+
+
+  // form btns events
+  $('#show-login-btn').click(function(e) {
+    e.preventDefault();
+    showLoginBox();    
+    return false;
+  });
+  $('#show-register-btn').click(function(e) {
+    e.preventDefault();
+    showRegisterBox();  
+    return false;
+  });  
+
+});
+
+function showLoginBox() {
+  $("form")[0].reset();
+  $("#register-box").addClass('hidden');
+  $("#login-box").removeClass('hidden');
+}
+
+function showRegisterBox() {
+  $("form")[0].reset();
+  $("#login-box").addClass('hidden');
+  $("#register-box").removeClass('hidden');
+}
+
+function showUserBox(profile) {
+  $('#sidebar').html(profile);
+  $('#sidebar').append('<p>Welcome '+ profile.name +'</p>');
+  
+  if(profile.isAdmin) {
+    $('#sidebar').append('<p><a id="admin-btn" href="javascript:void(0)">Go to admin</a></p>');  
+    $('#admin-btn').bind( "click", function() {
+      window.location.href = "/admin?token=" + localStorage.getItem('userToken');
+    });  
+  }
+
+  $('#sidebar').append('<p><a id="logout-btn" href="javascript:void(0)">Logout</a></p>');
+  $('#logout-btn').bind( "click", function() {
+    logout();
+  });
+}
+
+function logout() {
+  localStorage.removeItem('userToken');
+  userProfile = null;
+  window.location.href = "/";
+}
+</script>

@@ -9,11 +9,12 @@ module.exports = function(app, models) {
   return {
 
     create: function(req, res) {
-      
+
+      var name    = req.body.name;
       var email    = req.body.email;
       var password = req.body.password;
       
-      if(!email && !password)  
+      if(!name && !email && !password)  
         return res.status(500).json({err: 'No data provided'});
 
       User.findOne({'local.email': email}, function (err, user) {
@@ -24,6 +25,7 @@ module.exports = function(app, models) {
           return res.status(500).json({err: 'Email already exists'});
         
         var newUser = {
+          'name': name,
           'local.email': email,
           'local.password': password
         };
@@ -68,7 +70,7 @@ module.exports = function(app, models) {
             if(err)
               return res.status(500).json({err: 'Internal server error'});
 
-            return res.status(200).json({token: token});
+            return res.status(200).json({token: token, profile: user});
           });
         
         });       

@@ -1,36 +1,20 @@
-<!-- public/admin/views/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>El Chango</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+  <% include partials/header.html %>
 </head>
-<body>
-  <div class="container">
-    <nav class="navbar navbar-inverse navbar-static-top">
-      <div class="container">
-        <a class="navbar-brand" href="/">El Chango Admin</a>
-        <ul class="nav navbar-nav">
-          <li class="active">
-            <a href="/">Dashboard</a>
-          </li>
-          <li>
-            <a href="/about">Products</a>
-          </li>
-          <li>
-            <a href="/about">Orders</a>
-          </li>
-          <li>
-            <a href="/about">Users</a>
-          </li>
-          <li>
-            <a href="/logout">Logout</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+<body class="container">
+  <header>
+    <% include partials/nav.html %>
+  </header>
+  <main>
+    <div class="jumbotron">
+      <h1>Dashboard</h1>
+      <p>Welcome to templating using EJS</p>
+    </div>
+  </main>
+  <footer>
+    <% include partials/footer.html %>
+  </footer>    
 </body>
 </html>

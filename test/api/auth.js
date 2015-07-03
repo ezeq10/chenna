@@ -27,12 +27,14 @@ describe('Auth user API', function () {
   before( function (done) {
     // create test user
     userObj = {
+      name: 'user1',
       email: 'user1@user1.com',
       password: 'password'
     };
 
     // create test admin
     adminObj = {
+      'name': 'admin',
       'local.email': 'admin@admin.com',
       'local.password': 'password',
       isAdmin: true
@@ -80,7 +82,7 @@ describe('Auth user API', function () {
       .end(function(err, res) {
         if(err)
           return done(err);
-
+        
         expect(res).to.exist;
         expect(res.body).to.have.property('token');
         expect(res.body.token).to.exist;
@@ -110,13 +112,12 @@ describe('Auth user API', function () {
     supertest(app)
       .get('/admin')
       .set('x-access-token', adminToken)
-      .expect('Content-Type', /json/)
+      .expect('Content-Type', /html/)
       .expect(200)
       .end(function(err, res) {
         if(err)
           return done(err);
 
-        expect(res).to.exist;      
         return done();
       });
   });

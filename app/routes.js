@@ -35,9 +35,9 @@ module.exports = function(app, router, controllers) {
   /**
    * Admin routes
    */
-  //router.get('/admin/products', auth.isAuthenticated, auth.isAuthorized, controllers.admin.index); 
-  //router.get('/admin/orders', auth.isAuthenticated, auth.isAuthorized, controllers.admin.index); 
-  //router.get('/admin/users', auth.isAuthenticated, auth.isAuthorized, controllers.admin.index);
+  router.get('/admin/products', auth.isAuthenticated, auth.isAuthorized, controllers.admin.index); 
+  router.get('/admin/orders', auth.isAuthenticated, auth.isAuthorized, controllers.admin.index); 
+  router.get('/admin/users', auth.isAuthenticated, auth.isAuthorized, controllers.admin.index);
   router.get('/admin', auth.isAuthenticated, auth.isAuthorized, controllers.admin.index);
 
   /**
