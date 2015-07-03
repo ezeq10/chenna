@@ -4,15 +4,31 @@
   <header>
     <% include partials/nav.html %>
   </header>
-  <main>
-    <div class="jumbotron">
-      <h3>Products</h3>
+  <main>    
+    <h3>Products</h3>
+    
+    <div id="content" class="col-md-12">
+      <% if (data) { %>      
+      <ul>      
+        <% data.forEach(function(item) { %>
+        <li><%= item.name %> - <%= item.category %></li>
+        <% }); %>      
+      </ul>    
+      <% } else { %>    
+        <p> No items available </p>
+      <% } %>    
     </div>
-    <div id="content">
-      
-    </div>
+    <div style="clear:both;"></div>
+
+    <div class="col-xs-3">
+      <button type="button" id="add-products-btn" class="btn btn-warning btn-lg">Add new product</button>
+    </div>  
+
+    <div id="products-box" class="col-xs-9 hidden">
+      <% include partials/products_form.html %>        
+    </div>  
   </main>
 
-  <% include partials/footer.html %>  
+  <% include partials/footer.html %>
 </body>
 </html>

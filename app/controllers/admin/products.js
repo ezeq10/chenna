@@ -20,8 +20,8 @@ module.exports = function(app, models) {
         headers: {'x-access-token': token}
       }).then(function(response) {
         //console.log('response: %s', response)
-        if(response)
-          data = JSON.parse(response);          
+        var response = JSON.parse(response);
+        data = response.data;    
       })
       .catch(function(error) {
         console.error('Error on API %s', error)
