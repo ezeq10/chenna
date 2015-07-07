@@ -14,7 +14,10 @@ module.exports = function(app, models) {
       }*/      
       //console.log('[message.findAll] filter: %s',JSON.stringify(filter))
 
-      models.Order.find(filter).exec(function(err, data) {
+      models.Order.find(filter)
+        .populate('user')
+        .populate('products')
+        .exec(function(err, data) {
           //console.log('data %s', JSON.stringify(data))
           if(err)
             return res.status(500).json({err: 'Internal server error'});        
@@ -33,16 +36,20 @@ module.exports = function(app, models) {
       
       var id = req.params.order_id;
       
-      models.Order.findOne({_id: id}, function (err, data) {
-        //console.log('data %s', JSON.stringify(data))
-        if(err)
-          return res.status(500).json({err: 'Internal server error'});
-        
-        if(! data || data.length == 0) 
-          return res.status(404).json({err: 'Not found'});
-        
-        return res.status(200).json({data: data})
-      });
+      models.Order
+        .findOne({_id: id})
+        .populate('user')
+        .populate('products')
+        .exec( function (err, data) {
+          //console.log('data %s', JSON.stringify(data))
+          if(err)
+            return res.status(500).json({err: 'Internal server error'});
+          
+          if(! data || data.length == 0) 
+            return res.status(404).json({err: 'Not found'});
+          
+          return res.status(200).json({data: data})
+        });
     },
 
     add: function(req, res) {
@@ -53,8 +60,11 @@ module.exports = function(app, models) {
       var newObj = req.body;
 
       models.Order.create(newObj, function(err, data) {
-        if(err) 
+        if(err) {
+          console.error(err)
           return res.status(500).json({err: 'Internal server error'});
+        }
+          
 
         return res.status(201).json({data: {id: data._id}});
       });      

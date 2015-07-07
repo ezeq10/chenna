@@ -122,7 +122,7 @@ describe('Products API', function () {
       });
   });
 
-  it('should update a product object', function(done) {
+  it('should update a product object', function (done) {
     supertest(app)
       .put('/api/products/'+ lastInsertedId)
       .set('x-access-token', token)
@@ -137,7 +137,7 @@ describe('Products API', function () {
       });
   });
   
-  it('should get a product object by specific category', function(done) {
+  it('should get a product object by specific category', function (done) {
     supertest(app)
       .get('/api/products/search/fruits')
       .set('x-access-token', token)
@@ -153,7 +153,7 @@ describe('Products API', function () {
       });
   });
 
-  it('should delete a product object', function(done) {
+  it('should delete a product object', function (done) {
     supertest(app)
       .delete('/api/products/'+ lastInsertedId)
       .set('x-access-token', token)
@@ -168,7 +168,7 @@ describe('Products API', function () {
   });
 
   
-  after(function(done) {
+  after( function (done) {
     Product.remove().exec();
     User.remove().exec();
     done();

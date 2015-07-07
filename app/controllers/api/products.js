@@ -6,7 +6,7 @@ module.exports = function(app, models) {
   return {
 
     findAll: function(req, res) {
-      console.log('[products.findAll] params: %s', JSON.stringify(req.params))      
+      //console.log('[products.findAll] params: %s', JSON.stringify(req.params))      
       var filter = {};
 
       if(req.params.category && req.params.category != 'null') {
@@ -68,7 +68,9 @@ module.exports = function(app, models) {
         return res.status(500).json({err: 'No data provided'});
 
       var id = req.params.product_id;
-      var newObj = req.body;   
+      var newObj = req.body;
+      if(! req.body.isEnabled)
+        newObj.isEnabled = false;
 
       models.Product.update({_id: id}, newObj, function (err, numberAffected) {
         if(err)

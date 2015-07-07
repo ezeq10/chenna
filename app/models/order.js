@@ -6,7 +6,7 @@ module.exports = function(mongoose) {
   var Schema = mongoose.Schema;
 
   var orderSchema = new Schema({
-    //user:             { type: Schema.ObjectId, ref: 'User' },        
+    user:             { type: Schema.ObjectId, ref: 'User' },        
     products:         [{ type: Schema.ObjectId, ref: 'Product' }],
     code:             { type: String },
     gift:             { type: String },

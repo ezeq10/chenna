@@ -8,6 +8,7 @@ module.exports = function(app, models) {
     orders:           require('./api/orders')(app, models),
     admin:            require('./admin/dashboard')(app, models),
     admin_products:   require('./admin/products')(app, models),
+    admin_orders:     require('./admin/orders')(app, models),
   }
 
 };

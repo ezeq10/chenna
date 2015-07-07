@@ -5,8 +5,8 @@
     <% include partials/nav.html %>
   </header>
   <main>    
-    <h3>Products</h3>
-    
+    <h3>Orders</h3>
+    <%= data %>
     <div id="content" class="col-md-12">
     <% if(data) { %>      
       <table class="table table-striped">
@@ -45,12 +45,7 @@
     <% } %>    
     </div>
 
-    <div class="col-xs-3">
-      <button type="button" id="add-products-btn" class="btn btn-warning btn-lg">Add new product</button>
-    </div>  
-
-    <div id="products-box" class="col-xs-9 hidden">
-      <% include partials/products_form.html %>        
+    <div id="products-box" class="col-xs-9 hidden"> 
     </div>  
   </main>
   <div style="clear:both;"></div>

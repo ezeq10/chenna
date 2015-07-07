@@ -1,6 +1,8 @@
 $('#add-products-btn').on('click',function(e) {
+  $("#products-form")[0].reset(); 
   $('#products-form').attr('method', 'POST');
   $('#products-form').attr('action', '/api/products'); 
+  $('#submit-products-btn').text('Create');
   $("#products-box").removeClass('hidden');
 });
 
@@ -31,18 +33,22 @@ $('#products-form').on('submit',function(e){
 });
 
 // delete
-$('.delete-product-btn').on('click', function(e){    
+$('.delete-product-btn').on('click', function(e) {
   var id = $(this).data('item-id');
-  $.ajax({
-    url: '/api/products/'+ id,
-    type: 'DELETE',
-    error: function(err) {        
-      console.error(err);
-    },
-    complete: function(xhr) {        
-      window.location = xhr.url; 
-    }
-  });
+  
+  if(confirm('Are you sure ?')) {    
+
+    $.ajax({
+      url: '/api/products/'+ id,
+      type: 'DELETE',
+      error: function(err) {        
+        console.error(err);
+      },
+      complete: function(xhr) {        
+        window.location = xhr.url; 
+      }
+    });
+  }
   e.preventDefault();
 });
 
@@ -68,7 +74,8 @@ $('.update-product-btn').on('click', function(e){
     },
     complete: function(xhr) {
       $('#products-form').attr('method', 'PUT');
-      $('#products-form').attr('action', '/api/products/' + id); 
+      $('#products-form').attr('action', '/api/products/' + id);
+      $('#submit-products-btn').text('Update'); 
       $("#products-box").removeClass('hidden');
     }
   });

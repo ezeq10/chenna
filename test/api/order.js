@@ -21,18 +21,23 @@ var User = mongoose.model('User');
 describe('Order API', function () {
   
   var lastInsertedId;
+  var userObj;
   var token = null;
+  var userId;
 
   // datasets
+  var productsArray;
   var orderObj;
-  var orderObj2Update;  
-  var productObj;
-  var productObjId;
+  var orderObj2Update;
 
   before( function (done) {
-    
-    // create test product dataset
-    productObj = {
+
+    userObj = {
+      email: 'user1@user1.com',
+      password: 'password'
+    };  
+    // create test products dataset
+    productsArray = [{
       name: 'Manzana',
       category: 'fruits',
       unit: ['Unidad','Peso'],
@@ -42,17 +47,20 @@ describe('Order API', function () {
       price: [{ unit: 'Unidad', value: 2}, { unit: 'Peso', value: 15 }],
       defWeight: 1,
       delta: 0.25
-    };
-    Product.create(productObj, function (err, data) {
-      if((err) && (! data))
-        done(err);
+    }, {
+      name: 'Naranja',
+      category: 'fruits',
+      unit: ['Unidad','Peso'],
+      description: 'Es una naranja',
+      longDescription: 'Es una naranja especial',
+      images: [{ name: 'naranja01.jpg', text: 'texto de imagen'}],
+      price: [{ unit: 'Unidad', value: 3}, { unit: 'Peso', value: 20 }],
+      defWeight: 2,
+      delta: 0.50
+    }];
 
-      productObjId = data._id;
-      //console.log('productObjId: %s', productObjId);
-    });
-
+    // create test order dataset
     orderObj = {
-      user: '1',
       products: [],
       code: 1234,
       gift: {},
@@ -62,7 +70,6 @@ describe('Order API', function () {
       comments: 'Entregar temprano'
     };
     orderObj2Update = {
-      user: '1',
       products: [],
       code: 1235,
       gift: {},
@@ -72,12 +79,20 @@ describe('Order API', function () {
       comments: 'Entregar tarde'
     };
 
-    // create test user
-    var userObj = {
-      email: 'user1@user1.com',
-      password: 'password'
-    };
-    // get user token
+    // create products
+    Product.create(productsArray, function(err, data) {
+      if(err) 
+        return done(err);
+
+      // set products for both datasets
+      orderObj.products.push(data[0].id);
+      orderObj2Update.products.push(data[0].id, data[1].id);
+      
+      //console.log(JSON.stringify(orderObj))
+      //console.log(JSON.stringify(orderObj2Update))
+    });
+    
+    // register user
     supertest(app)
       .post('/register')
       .send(userObj)
@@ -85,11 +100,36 @@ describe('Order API', function () {
       .end(function(err, res) {
         if(err)
           return done(err);
-        
-        token = res.body.token;        
-        return done();
-      });
+
+          // login user
+          supertest(app)
+            .post('/login')
+            .send(userObj)
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .end(function(err, res) {
+              if(err)
+                return done(err);
+              
+              expect(res).to.exist;
+              expect(res.body).to.have.property('token');
+              expect(res.body).to.have.property('profile');
+              expect(res.body.token).to.exist;
+              expect(res.body.profile).to.exist;
+              
+              // save user token
+              token = res.body.token;
+              userId = res.body.profile._id;
+              
+              // set user for both order datasets
+              orderObj.user = userId;
+              orderObj2Update.user = userId;
+
+              return done();
+            });
+      });    
   });
+
 
   it('should save an order data object', function (done) {
     supertest(app)
@@ -122,7 +162,7 @@ describe('Order API', function () {
           return done(err);
       
         expect(res.body.data).to.exist;
-        expect(res.body.data[0]).to.have.property('_id');
+        expect(res.body.data[0]).to.have.property('_id');        
         return done();
       });
   });
@@ -137,12 +177,12 @@ describe('Order API', function () {
           return done(err);
       
         expect(res.body.data).to.exist;
-        expect(res.body.data).to.have.property('_id');          
+        expect(res.body.data).to.have.property('_id');        
         return done();
       });
   });
   
-  it('should update an order object', function(done) {
+  it('should update an order object', function (done) {
     supertest(app)
       .put('/api/orders/'+ lastInsertedId)
       .set('x-access-token', token)
@@ -156,8 +196,8 @@ describe('Order API', function () {
         return done();
       });
   });
-
-  it('should delete an order object', function(done) {
+  
+  it('should delete an order object', function (done) {
     supertest(app)
       .delete('/api/orders/'+ lastInsertedId)
       .set('x-access-token', token)
@@ -169,9 +209,9 @@ describe('Order API', function () {
       
         return done();
       });
-  });
-
-  after(function(done) {
+  }); 
+  
+  after( function (done) {
     Order.remove().exec();
     User.remove().exec();
     done();

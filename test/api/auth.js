@@ -73,7 +73,7 @@ describe('Auth user API', function () {
       });
   });
   
-  it('should login user', function(done) {
+  it('should login user', function (done) {
     supertest(app)
       .post('/login')
       .send(userObj)
@@ -85,7 +85,9 @@ describe('Auth user API', function () {
         
         expect(res).to.exist;
         expect(res.body).to.have.property('token');
+        expect(res.body).to.have.property('profile');
         expect(res.body.token).to.exist;
+        expect(res.body.profile).to.exist;
         
         // save user token
         userToken = res.body.token;        
@@ -93,7 +95,7 @@ describe('Auth user API', function () {
       });
   });
 
-  it('should reject admin section for common user', function(done) {
+  it('should reject admin section for common user', function (done) {
     supertest(app)
       .get('/admin')
       .set('x-access-token', userToken)
@@ -108,7 +110,7 @@ describe('Auth user API', function () {
       });
   });
 
-  it('should render admin dashboard for admin user', function(done) {
+  it('should render admin dashboard for admin user', function (done) {
     supertest(app)
       .get('/admin')
       .set('x-access-token', adminToken)
@@ -122,7 +124,7 @@ describe('Auth user API', function () {
       });
   });
 
-  after(function(done) {
+  after( function (done) {
     User.remove().exec();
     done();
   });
