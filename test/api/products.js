@@ -37,7 +37,8 @@ describe('Products API', function () {
       images: [{ name: 'manzana01.jpg', text: 'texto de imagen'}],
       price: [{ unit: 'Unidad', value: 2}, { unit: 'Peso', value: 15 }],
       defWeight: 1,
-      delta: 0.25
+      delta: 0.25,
+      quantity:10
     };
     productObj2Update = {
       name: 'Manzana de lujo',
@@ -48,7 +49,8 @@ describe('Products API', function () {
       images: [{ name: 'manzana02.jpg', text: 'texto de imagen'}],
       price: [{ unit: 'Unidad', value: 3}, { unit: 'Peso', value: 16 }],
       defWeight: 1,
-      delta: 0.30
+      delta: 0.30,
+      quantity:12
     };
 
     // create test user

@@ -6,35 +6,27 @@
   </header>
   <main>    
     <h3>Orders</h3>
-    <%= data %>
     <div id="content" class="col-md-12">
     <% if(data) { %>      
       <table class="table table-striped">
         <thead>
         <tr>
-          <th>Name</th>
-          <th>Category</th>
-          <th>Unit</th>
-          <th>Description</th>
-          <th>Quantity</th>
-          <th>Enabled</th>
+          <th>Date</th>
+          <th>User</th>
+          <th>Products</th>
+          <th>Code</th>
+          <th>Subtotal</th>
+          <th>Shipping cost</th>
+          <th>Total</th>
+          <th>Comments</th>
+          <th>Delivered</th>
           <th>Actions</th>
         </tr>
         </thead>
         <tbody>
         <% data.forEach(function(item) { %>
         <tr>
-          <td><%= item.name %></td>
-          <td><%= item.category %></td>
-          <td><%= item.unit %></td>
-          <td><%= item.description %></td>
-          <td><%= item.stock %></td>
-          <td><%= item.isEnabled %></td>          
-          <td>
-            <span><a href="javascript:void" data-item-id="<%= item._id %>">images</a></span>
-            <span><a class="update-product-btn" href="javascript:void" data-item-id="<%= item._id %>">edit</a></span>
-            <span><a class="delete-product-btn" href="javascript:void" data-item-id="<%= item._id %>">remove</a></span>            
-          </td>
+          
         </tr> 
         <% }); %>     
         </tbody>  
