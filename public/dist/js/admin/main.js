@@ -26,6 +26,8 @@ $(document).ready(function() {
     return false;
   });
   
+  products.init();
+  
 });
 
 function logout() {  
