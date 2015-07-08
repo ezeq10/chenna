@@ -3,6 +3,9 @@
 
 module.exports = function(app, models) {
 
+  // models
+  var Product = models.Product;
+
   return {
 
     findAll: function(req, res) {
@@ -14,16 +17,16 @@ module.exports = function(app, models) {
       }      
       //console.log('[message.findAll] filter: %s',JSON.stringify(filter))
 
-      models.Product.find(filter).exec(function(err, data) {
-          //console.log('data %s', JSON.stringify(data))
-          if(err)
-            return res.status(500).json({err: 'Internal server error'});        
-          
-          if(! data || data.length == 0) 
-            return res.status(404).json({err: 'Not found'});
-          
-          return res.status(200).json({data: data})
-        });      
+      Product.find(filter).exec(function(err, data) {
+        //console.log('data %s', JSON.stringify(data))
+        if(err)
+          return res.status(500).json({err: 'Internal server error'});        
+        
+        if(! data || data.length == 0) 
+          return res.status(404).json({err: 'Not found'});
+        
+        return res.status(200).json({data: data})
+      });      
     },
 
     findById: function(req, res) {
@@ -33,7 +36,7 @@ module.exports = function(app, models) {
       
       var id = req.params.product_id;
       
-      models.Product.findOne({_id: id}, function (err, data) {
+      Product.findOne({_id: id}, function (err, data) {
         //console.log('data %s', JSON.stringify(data))
         if(err)
           return res.status(500).json({err: 'Internal server error'});
@@ -52,7 +55,7 @@ module.exports = function(app, models) {
 
       var newObj = req.body;
 
-      models.Product.create(newObj, function(err, data) {
+      Product.create(newObj, function(err, data) {
         if(err) 
           return res.status(500).json({err: 'Internal server error'});
 
@@ -72,7 +75,7 @@ module.exports = function(app, models) {
       if(! req.body.isEnabled)
         newObj.isEnabled = false;
 
-      models.Product.update({_id: id}, newObj, function (err, numberAffected) {
+      Product.update({_id: id}, newObj, function (err, numberAffected) {
         if(err)
           return res.status(500).json({err: 'Internal server error'});
         
@@ -87,7 +90,7 @@ module.exports = function(app, models) {
       
       var id = req.params.product_id;
       
-      models.Product.remove({_id: id}, function (err) {
+      Product.remove({_id: id}, function (err) {
         if(err) 
           return res.status(500).json({err: 'Internal server error'});
         

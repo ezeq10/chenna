@@ -7,7 +7,8 @@ module.exports = function(mongoose) {
 
   var orderSchema = new Schema({
     user:             { type: Schema.ObjectId, ref: 'User' },        
-    products:         [{ type: Schema.ObjectId, ref: 'Product' }],
+    products:         [{ quantity: { type: Number }, 
+                         product:  { type: Schema.ObjectId, ref: 'Product' } }],
     code:             { type: String },
     gift:             { type: String },
     subtotal:         { type: Number, default: 0.00 },

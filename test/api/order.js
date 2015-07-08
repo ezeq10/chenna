@@ -42,7 +42,6 @@ describe('Order API', function () {
       category: 'fruits',
       unit: ['Unidad','Peso'],
       description: 'Es una manzana',
-      longDescription: 'Es una manzana especial',
       images: [{ name: 'manzana01.jpg', text: 'texto de imagen'}],
       price: [{ unit: 'Unidad', value: 2}, { unit: 'Peso', value: 15 }],
       defWeight: 1,
@@ -52,7 +51,6 @@ describe('Order API', function () {
       category: 'fruits',
       unit: ['Unidad','Peso'],
       description: 'Es una naranja',
-      longDescription: 'Es una naranja especial',
       images: [{ name: 'naranja01.jpg', text: 'texto de imagen'}],
       price: [{ unit: 'Unidad', value: 3}, { unit: 'Peso', value: 20 }],
       defWeight: 2,
@@ -85,8 +83,9 @@ describe('Order API', function () {
         return done(err);
 
       // set products for both datasets
-      orderObj.products.push(data[0].id);
-      orderObj2Update.products.push(data[0].id, data[1].id);
+      orderObj.products.push({ quantity: 1, product: data[0].id });
+      orderObj2Update.products.push({ quantity: 1, product: data[0].id },
+                                    { quantity: 3, product: data[1].id });
       
       //console.log(JSON.stringify(orderObj))
       //console.log(JSON.stringify(orderObj2Update))

@@ -3,6 +3,9 @@
 
 module.exports = function(app, models) {
 
+  // models
+  var Order = models.Order;
+
   return {
 
     findAll: function(req, res) {
@@ -14,7 +17,7 @@ module.exports = function(app, models) {
       }*/      
       //console.log('[message.findAll] filter: %s',JSON.stringify(filter))
 
-      models.Order.find(filter)
+      Order.find(filter)
         .populate('user')
         .populate('products')
         .exec(function(err, data) {
@@ -36,8 +39,7 @@ module.exports = function(app, models) {
       
       var id = req.params.order_id;
       
-      models.Order
-        .findOne({_id: id})
+      Order.findOne({_id: id})
         .populate('user')
         .populate('products')
         .exec( function (err, data) {
@@ -59,13 +61,11 @@ module.exports = function(app, models) {
 
       var newObj = req.body;
 
-      models.Order.create(newObj, function(err, data) {
+      Order.create(newObj, function(err, data) {
         if(err) {
           console.error(err)
           return res.status(500).json({err: 'Internal server error'});
         }
-          
-
         return res.status(201).json({data: {id: data._id}});
       });      
     },
@@ -80,7 +80,7 @@ module.exports = function(app, models) {
       var id = req.params.order_id;
       var newObj = req.body;   
 
-      models.Order.update({_id: id}, newObj, function (err, numberAffected) {
+      Order.update({_id: id}, newObj, function (err, numberAffected) {
         if(err)
           return res.status(500).json({err: 'Internal server error'});
         
@@ -95,7 +95,7 @@ module.exports = function(app, models) {
       
       var id = req.params.order_id;
       
-      models.Order.remove({_id: id}, function (err) {
+      Order.remove({_id: id}, function (err) {
         if(err) 
           return res.status(500).json({err: 'Internal server error'});
         
