@@ -28,8 +28,9 @@ module.exports = function(app, router, controllers) {
   /**
    * Users API endpoints
    */
-  router.delete('/api/users/:user_id', auth.isAuthenticated, controllers.users.delete);
-  router.put('/api/users/:user_id', auth.isAuthenticated, controllers.users.update);
+  router.delete('/api/users/:user_id', auth.isAuthenticated, auth.isAuthorized, controllers.users.delete);
+  router.put('/api/users/:user_id', auth.isAuthenticated, auth.isAuthorized, controllers.users.update);
+  router.get('/api/users/:user_id', auth.isAuthenticated, auth.isAuthorized, controllers.users.findById);
   router.get('/api/users', auth.isAuthenticated, auth.isAuthorized, controllers.users.findAll);
 
 

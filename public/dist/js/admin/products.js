@@ -23,8 +23,7 @@ var products = ( function () {
         console.error(err);        
       },
       success: function(response) {
-        var formElements = settings.form[0].elements;
-        console.log(formElements)
+        var formElements = settings.form[0].elements;        
         // populate form
         for (i in response.data) {        
           if (i in formElements) {

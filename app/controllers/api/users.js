@@ -24,6 +24,25 @@ module.exports = function(app, models) {
         });      
     },
 
+    findById: function(req, res) {
+      
+      if(! req.params.user_id)
+        return res.status(404).json({err: 'Not found'});
+      
+      var id = req.params.user_id;
+      
+      User.findOne({_id: id}, function (err, data) {
+        console.log('data %s', JSON.stringify(data))
+        if(err)
+          return res.status(500).json({err: 'Internal server error'});
+        
+        if(! data || data.length == 0) 
+          return res.status(404).json({err: 'Not found'});
+        
+        return res.status(200).json({data: data})
+      });
+    },
+
     update: function(req, res) {
       
       if(! req.params.user_id)
