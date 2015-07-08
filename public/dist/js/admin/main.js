@@ -27,6 +27,7 @@ $(document).ready(function() {
   });
   
   products.init();
+  users.init();
   
 });
 

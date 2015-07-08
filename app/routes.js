@@ -25,6 +25,13 @@ module.exports = function(app, router, controllers) {
   router.post('/api/orders', auth.isAuthenticated, controllers.orders.add);
   router.get('/api/orders', auth.isAuthenticated, controllers.orders.findAll);
 
+  /**
+   * Users API endpoints
+   */
+  router.delete('/api/users/:user_id', auth.isAuthenticated, controllers.users.delete);
+  router.put('/api/users/:user_id', auth.isAuthenticated, controllers.users.update);
+  router.get('/api/users', auth.isAuthenticated, auth.isAuthorized, controllers.users.findAll);
+
 
   /**
    * Auth (using JWT)
@@ -37,7 +44,7 @@ module.exports = function(app, router, controllers) {
    */
   router.get('/admin/products', auth.isAuthenticated, auth.isAuthorized, controllers.admin_products.index); 
   router.get('/admin/orders', auth.isAuthenticated, auth.isAuthorized, controllers.admin_orders.index); 
-  //router.get('/admin/users', auth.isAuthenticated, auth.isAuthorized, controllers.admin.index);
+  router.get('/admin/users', auth.isAuthenticated, auth.isAuthorized, controllers.admin_users.index);
   router.get('/admin', auth.isAuthenticated, auth.isAuthorized, controllers.admin.index);
 
   /**
