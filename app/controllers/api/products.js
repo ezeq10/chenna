@@ -96,6 +96,16 @@ module.exports = function(app, models) {
         
         return res.status(200).json();
       });
-    }    
+    },
+
+    addImages: function(req, res) {      
+      console.log('[products.addImages] params: %s %s %s', JSON.stringify(req.params), JSON.stringify(req.files), JSON.stringify(req.body))
+      if(! req.params.product_id)
+        return res.status(404).json({err: 'Not found'});
+      
+      var id = req.params.product_id;
+      
+      return res.status(200).json();      
+    }   
   }
 };

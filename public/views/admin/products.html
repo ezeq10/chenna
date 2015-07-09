@@ -31,8 +31,8 @@
           <td><%= item.stock %></td>
           <td><%= item.isEnabled %></td>          
           <td>
-            <span><a href="javascript:void" data-item-id="<%= item._id %>">images</a></span>
-            <span><a class="update-products-btn" href="javascript:void" data-item-id="<%= item._id %>">edit</a></span>
+            <span><a class="images-products-btn" href="javascript:void" data-item-id="<%= item._id %>">manage images</a></span> |
+            <span><a class="update-products-btn" href="javascript:void" data-item-id="<%= item._id %>">edit</a></span> |
             <span><a class="delete-products-btn" href="javascript:void" data-item-id="<%= item._id %>">remove</a></span>            
           </td>
         </tr> 
@@ -50,7 +50,7 @@
     </div>  
 
     <div id="products-box" class="col-xs-9 hidden">
-      <% include partials/products_form.html %>        
+      <% include partials/products_form.html %>
     </div>  
   </main>
   <div style="clear:both;"></div>

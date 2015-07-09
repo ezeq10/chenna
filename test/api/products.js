@@ -153,6 +153,23 @@ describe('Products API', function () {
       });
   });
 
+  it('should add an image to a product object', function (done) {
+    supertest(app)
+      .post('/api/products/images/'+ lastInsertedId)
+      .set('x-access-token', token)
+      .field('name', 'my awesome avatar')
+      .field('text', 'image text..')
+      .attach('photo1', '/home/ezeq/Desktop/image.jpg')
+      .expect('Content-Type', /json/)      
+      .expect(200)
+      .end(function(err, res) {
+        if(err)
+          return done(err);
+      
+        return done();
+      });
+  });
+
   it('should delete a product object', function (done) {
     supertest(app)
       .delete('/api/products/'+ lastInsertedId)

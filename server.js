@@ -1,20 +1,20 @@
 'use strict';
 
 // load modules
-var express = require('express');
-var mongoose = require('mongoose');
-var bcrypt = require('bcrypt');
-var jwt = require('jsonwebtoken');
-var request = require('request-promise');
-var logger = require('morgan');
+var express         = require('express');
+var mongoose        = require('mongoose');
+var bodyParser      = require('body-parser');
+var methodOverride  = require('method-override');
+var bcrypt          = require('bcrypt');
+var jwt             = require('jsonwebtoken');
+var request         = require('request-promise');
+var multer          = require('multer');
+var logger          = require('morgan');
 
-// middleware: parser
-var bodyParser = require('body-parser');
-var methodOverride = require('method-override');
 
 // get env vars
-var env = process.env.NODE_ENV || 'development';
-var port = process.env.NODE_PORT || 3000;
+var env   = process.env.NODE_ENV || 'development';
+var port  = process.env.NODE_PORT || 3000;
 
 // app init
 var app = express();
@@ -24,6 +24,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride());
 app.use(express.static(__dirname + '/public'));
+app.use(multer({
+  dest: './uploads'
+}));
 app.disable('x-powered-by');
 
 // template settings
