@@ -212,6 +212,7 @@ describe('Order API', function () {
   
   after( function (done) {
     Order.remove().exec();
+    Product.remove().exec();
     User.remove().exec();
     done();
   });

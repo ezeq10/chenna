@@ -98,14 +98,40 @@ module.exports = function(app, models) {
       });
     },
 
-    addImages: function(req, res) {      
-      console.log('[products.addImages] params: %s %s %s', JSON.stringify(req.params), JSON.stringify(req.files), JSON.stringify(req.body))
+    addImage: function(req, res) {      
+      //console.log('[products.addImage] params: %s %s %s', JSON.stringify(req.params), JSON.stringify(req.files), JSON.stringify(req.body))
       if(! req.params.product_id)
         return res.status(404).json({err: 'Not found'});
       
       var id = req.params.product_id;
+      var imageObj = {
+        name: req.files.photo.name,
+        text: req.body.text
+      }
+
+      Product.update({_id: id}, { $push: {images: imageObj} }, function (err, numberAffected) {
+        if(err)
+          return res.status(500).json({err: 'Internal server error'});
+        
+        return res.status(200).json();
+      });
+    },
+
+    delImage: function(req, res) {      
+      //console.log('[products.delImage] params: %s', JSON.stringify(req.params))
+      if(! req.params.product_id)
+        return res.status(404).json({err: 'Not found'});
       
-      return res.status(200).json();      
-    }   
+      var id = req.params.product_id;
+
+      Product.update({_id: id}, { $pop: {images: 1} }, function (err, numberAffected) {
+        if(err)
+          return res.status(500).json({err: 'Internal server error'});
+        
+        return res.status(200).json();
+      });
+    }  
+
+
   }
 };

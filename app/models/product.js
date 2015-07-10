@@ -10,7 +10,7 @@ module.exports = function(mongoose) {
     category:         { type: String, required: true },
     unit:             { type: String },
     description:      { type: String },
-    images:           [{ name: { type: String }, text: { type: String }, date: { type: Date } }],
+    images:           [{ name: { type: String }, text: { type: String } }],
     price:            [{ unit: { type: String }, value: { type: Number } }],
     defaultWeight:    { type: Number },
     delta:            { type: Number },

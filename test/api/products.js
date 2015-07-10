@@ -33,7 +33,7 @@ describe('Products API', function () {
       category: 'fruits',
       unit: ['Unidad','Peso'],
       description: 'Es una manzana',
-      images: [{ name: 'manzana01.jpg', text: 'texto de imagen'}],
+      images: [],
       price: [{ unit: 'Unidad', value: 2}, { unit: 'Peso', value: 15 }],
       defWeight: 1,
       delta: 0.25,
@@ -44,7 +44,7 @@ describe('Products API', function () {
       category: 'fruits',
       unit: ['Unidad','Peso'],
       description: 'Es una manzana de lujo',
-      images: [{ name: 'manzana02.jpg', text: 'texto de imagen'}],
+      images: [],
       price: [{ unit: 'Unidad', value: 3}, { unit: 'Peso', value: 16 }],
       defWeight: 1,
       delta: 0.30,
@@ -155,11 +155,10 @@ describe('Products API', function () {
 
   it('should add an image to a product object', function (done) {
     supertest(app)
-      .post('/api/products/images/'+ lastInsertedId)
+      .post('/api/products/'+ lastInsertedId + '/images')
       .set('x-access-token', token)
-      .field('name', 'my awesome avatar')
       .field('text', 'image text..')
-      .attach('photo1', '/home/ezeq/Desktop/image.jpg')
+      .attach('photo', '/home/ezeq/Desktop/image.jpg')
       .expect('Content-Type', /json/)      
       .expect(200)
       .end(function(err, res) {
@@ -170,6 +169,20 @@ describe('Products API', function () {
       });
   });
 
+  it('should delete last image inserted of a product object', function (done) {
+    supertest(app)
+      .delete('/api/products/'+ lastInsertedId + '/images')
+      .set('x-access-token', token)
+      .expect('Content-Type', /json/)      
+      .expect(200)
+      .end(function(err, res) {
+        if(err)
+          return done(err);
+      
+        return done();
+      });
+  });
+  
   it('should delete a product object', function (done) {
     supertest(app)
       .delete('/api/products/'+ lastInsertedId)
@@ -183,8 +196,8 @@ describe('Products API', function () {
         return done();
       });
   });
-
   
+
   after( function (done) {
     Product.remove().exec();
     User.remove().exec();
