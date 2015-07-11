@@ -20,6 +20,7 @@ var User = mongoose.model('User');
 describe('Products API', function () {
 
   var lastInsertedId;
+  var lastImageInsertedId;
   var token = null;
 
   // datasets
@@ -164,14 +165,20 @@ describe('Products API', function () {
       .end(function(err, res) {
         if(err)
           return done(err);
-      
+        
+        expect(res.body.data).to.exist;
+        expect(res.body.data).to.have.property('_id');
+        expect(res.body.data.images[0]).to.have.property('_id');
+        // get last image inserted id
+        lastImageInsertedId = res.body.data.images[0]._id;
+
         return done();
       });
   });
-
+  
   it('should delete last image inserted of a product object', function (done) {
     supertest(app)
-      .delete('/api/products/'+ lastInsertedId + '/images')
+      .delete('/api/products/'+ lastInsertedId + '/images/' + lastImageInsertedId)
       .set('x-access-token', token)
       .expect('Content-Type', /json/)      
       .expect(200)
@@ -199,7 +206,7 @@ describe('Products API', function () {
   
 
   after( function (done) {
-    Product.remove().exec();
+    //Product.remove().exec();
     User.remove().exec();
     done();
   });

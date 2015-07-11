@@ -9,7 +9,7 @@ module.exports = function(app, router, controllers) {
   /**
    * Products API endpoints
    */
-  router.delete('/api/products/:product_id/images', auth.isAuthenticated, controllers.products.delImage); 
+  router.delete('/api/products/:product_id/images/:image_id', auth.isAuthenticated, controllers.products.delImage); 
   router.post('/api/products/:product_id/images', auth.isAuthenticated, controllers.products.addImage); 
   router.get('/api/products/search/:category', auth.isAuthenticated, controllers.products.findAll);  
   router.delete('/api/products/:product_id', auth.isAuthenticated, controllers.products.delete);

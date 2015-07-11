@@ -3,6 +3,9 @@
 
 module.exports = function(app, models) {
 
+  // load dependencies
+  var fs = require('fs');
+
   // models
   var Product = models.Product;
 
@@ -108,12 +111,12 @@ module.exports = function(app, models) {
         name: req.files.photo.name,
         text: req.body.text
       }
-
-      Product.update({_id: id}, { $push: {images: imageObj} }, function (err, numberAffected) {
+      
+      Product.findByIdAndUpdate({_id: id}, {$push: {images: imageObj}}, {'new': true}, function (err, data) {
         if(err)
           return res.status(500).json({err: 'Internal server error'});
-        
-        return res.status(200).json();
+               
+        return res.status(200).json({data: data});
       });
     },
 
@@ -121,14 +124,29 @@ module.exports = function(app, models) {
       //console.log('[products.delImage] params: %s', JSON.stringify(req.params))
       if(! req.params.product_id)
         return res.status(404).json({err: 'Not found'});
+      if(! req.params.image_id)
+        return res.status(404).json({err: 'Not found'});
       
       var id = req.params.product_id;
+      var image_id = req.params.image_id;
 
-      Product.update({_id: id}, { $pop: {images: 1} }, function (err, numberAffected) {
+      Product.findByIdAndUpdate({_id: id}, {$pull: {images: {_id: image_id}}}, function (err, data) {
         if(err)
           return res.status(500).json({err: 'Internal server error'});
+
+        var imageObj = data.images.filter( function(item) {
+          return item._id = image_id;
+        });
+        var filename = imageObj[0].name;
         
-        return res.status(200).json();
+        fs.unlink('uploads/' + filename, function(err) {
+          if(err) {
+            console.error(err);
+            return res.status(500).json({err: 'Internal server error'}); 
+          }
+
+          return res.status(200).json();  
+        });        
       });
     }  
 
