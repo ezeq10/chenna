@@ -205,7 +205,8 @@ var products = ( function () {
           data.submit();
         },
         done: function(ev, data) {
-          settings.imagesBox.addClass('hidden');
+          var product_id = settings.productId.val()
+          _createImageGallery(product_id);
         },
         progressall: function (e, data) {
           var progress = parseInt(data.loaded / data.total * 100, 10);
