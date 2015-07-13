@@ -13,14 +13,14 @@ $(document).ready(function() {
 
 
   // navigate sections
-  $('.nav-link').click(function(e) { 
+  $('.nav-link').click( function(e) { 
     e.preventDefault();
     var url = $(this).attr('href');
     window.location.href = url + '/?token=' + localStorage.getItem('userToken');
     return false;
   });
 
-  $('#logout-btn').click(function(e) {
+  $('#logout-btn').click( function(e) {
     e.preventDefault();
     logout();
     return false;

@@ -56,14 +56,14 @@ var users = ( function () {
 
     bindEvents: function() {      
 
-      settings.cancelBtn.click(function() {
+      settings.cancelBtn.click( function() {
         settings.box.addClass('hidden');
       });
-      settings.cancelBtn.click(function() {
+      settings.cancelBtn.click( function() {
         settings.box.addClass('hidden');
       });
       // delete
-      settings.deleteBtn.click(function(e) {
+      settings.deleteBtn.click( function(e) {
         e.preventDefault();
         var id = $(this).data('item-id');
         if(id && confirm('Are you sure?')) {
@@ -71,7 +71,7 @@ var users = ( function () {
         }
       });
       // update
-      settings.updateBtn.click(function(e) {
+      settings.updateBtn.click( function(e) {
         e.preventDefault();
         var id = $(this).data('item-id');        
         if(id) {
@@ -79,7 +79,7 @@ var users = ( function () {
         }        
       });
       // form submit
-      settings.form.submit(function(e) {
+      settings.form.submit( function(e) {
         e.preventDefault();
         var formData = $(this).serialize();  
         var method = $(this).attr('method');

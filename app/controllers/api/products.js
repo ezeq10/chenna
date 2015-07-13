@@ -108,7 +108,7 @@ module.exports = function(app, models) {
       
       var id = req.params.product_id;
       var imageObj = {
-        name: req.files.photo.name,
+        name: req.files.image.name,
         text: req.body.text
       }
       
@@ -138,8 +138,8 @@ module.exports = function(app, models) {
           return item._id = image_id;
         });
         var filename = imageObj[0].name;
-        
-        fs.unlink('uploads/' + filename, function(err) {
+
+        fs.unlink('public/uploads/' + filename, function(err) {
           if(err) {
             console.error(err);
             return res.status(500).json({err: 'Internal server error'}); 

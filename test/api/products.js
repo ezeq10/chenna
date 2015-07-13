@@ -159,7 +159,7 @@ describe('Products API', function () {
       .post('/api/products/'+ lastInsertedId + '/images')
       .set('x-access-token', token)
       .field('text', 'image text..')
-      .attach('photo', '/home/ezeq/Desktop/image.jpg')
+      .attach('image', '/home/ezeq/Desktop/image.jpg')
       .expect('Content-Type', /json/)      
       .expect(200)
       .end(function(err, res) {

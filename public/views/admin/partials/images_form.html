@@ -1,10 +1,18 @@
 <form id="images-form" method="post" enctype="multipart/form-data">
-  <div class="form-group">
-    <label>Name</label>
-    <input type="text" class="form-control" name="name">
+  <div id="image-gallery"></div>
+  <span class="btn btn-success fileinput-button"><span>+ Upload Files</span>
+  <input id="image" type="file" name="image" multiple="multiple"/></span><br/>
+    <div class="progress progress-striped active">
+    <div class="progress-bar progress-bar-success"></div>
   </div>
-  
-
-  <button type="submit" id="submit-products-btn" class="btn btn-warning btn-lg">Create</button>
-  <button type="button" id="cancel-products-btn" class="btn btn-warning btn-lg">Cancel</button>
+  <input id="product_id" type="hidden" name="product_id"/></span><br/>
 </form>
+
+ <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">         
+      <div class="modal-body">                
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

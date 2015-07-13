@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride());
 app.use(express.static(__dirname + '/public'));
 app.use(multer({
-  dest: './uploads'
+  dest: './public/uploads'
 }));
 app.disable('x-powered-by');
 
