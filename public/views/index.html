@@ -42,9 +42,10 @@
     <div ng-controller="MainController">
       <h3>{{ message }}</h3>
     </div>-->
-    <div class="row">
+    <div class="row" ng-controller="cartController">
 
       <div class="col-xs-7 col-md-8 col-sm-8 col-lg-8" ng-controller="productsController">
+        <div ng-bind="message"></div>
         <!-- Products list -->
         <div class="panel panel-primary">
           <div class="panel-heading">
@@ -52,15 +53,15 @@
           </div>          
           <div class="panel-body">
             <ul>
-              <li ng-repeat="item in items">
-                <span>{{ item.name }}</span>
-                <span>{{ item.category }}</span>
-                <span>{{ item.description }}</span>
-                <span>{{ item.price }}</span>
-                <span>{{ item.stock }}</span>
-                <span>{{ item.unit }}</span>
-                <span><img ng-src="/uploads/{{ item.images[0].name }}" class="img-rounded" alt="{{ item.images[0].text }}" width="100" height="75" /></span>
-                <span><button class="btn btn-warning" ng-click="addToCart()">Add to cart <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></button></span>
+              <li ng-repeat="product in products">
+                <span>{{ product.name }}</span>
+                <span>{{ product.category }}</span>
+                <span>{{ product.description }}</span>
+                <span>{{ product.price }}</span>
+                <span>{{ product.quantity }}</span>
+                <span>{{ product.unit }}</span>
+                <span><img ng-src="/uploads/{{ product.images[0].name }}" class="img-rounded" alt="{{ product.images[0].text }}" width="100" height="75" /></span>
+                <span><button class="btn btn-warning" ng-click="addItem(product)">Add to cart <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></button></span>
               </li>
             </ul>
           </div>
@@ -74,7 +75,15 @@
             <h3 class="panel-title">Total</h3>
           </div>
           <div class="panel-body">
-            <h2>Rs. 100</h2>
+            <ul>
+            <li ng-repeat="item in cart.items">
+              <span>{{ item.quantity }}</span>
+              <span>{{ item.name }}</span>
+              <span>{{ item.price }}</span>
+              <span><button class="btn btn-danger" ng-click="removeItem($index)">Remove item</button></span>
+            </li>
+            </ul>
+            <div>Total: <span ng-bind="total"></span></div>
           </div>
         </div>
 
@@ -103,7 +112,8 @@
 
     <script src="/src/js/frontend/users/auth.js"></script>
     <script src="/src/js/frontend/products/productsController.js"></script>
-    <script src="/src/js/frontend/products/productsService.js"></script>    
+    <script src="/src/js/frontend/products/productsService.js"></script>
+    <script src="/src/js/frontend/cart/cartController.js"></script>
     <script src="/src/js/frontend/main.js"></script>
   
     <p class="text-center text-muted">© Copyright 2015 3StageLabs.com</p>

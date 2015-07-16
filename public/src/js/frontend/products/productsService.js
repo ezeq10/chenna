@@ -2,7 +2,6 @@
 'use strict';
 
 angular.module('app.products')
-
   .factory('productsService', function($http) {
       
     return {

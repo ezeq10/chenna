@@ -4,7 +4,8 @@
 
 var app = angular.module('app', [
   'ngRoute',
-  'app.products'
+  'app.products',
+  'app.cart'
   ])
 
 app.controller('MainController', function($scope) {

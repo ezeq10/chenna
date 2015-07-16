@@ -2,23 +2,19 @@
 'use strict';
 
 angular.module('app.products', [])
-
   .controller('productsController', function($scope, productsService) {
+
+    $scope.products = [];
 
     $scope.getProducts = function() {
       productsService.getAll( function (err, res) {
         if(err)
-          return false;
+          $scope.message = 'No products available';
 
-        $scope.items = res;
+        $scope.products = res;
       });
     }
 
-    $scope.addToCart = function() {
-      console.log('Add to cart')
-    };
-
-    
     $scope.getProducts();
     
   });
