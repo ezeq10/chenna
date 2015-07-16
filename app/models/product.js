@@ -11,7 +11,7 @@ module.exports = function(mongoose) {
     unit:             { type: String },
     description:      { type: String },
     images:           [{ name: { type: String }, text: { type: String } }],
-    price:            [{ unit: { type: String }, value: { type: Number } }],
+    price:            { type: Number },
     defaultWeight:    { type: Number },
     delta:            { type: Number },
     quantity:         { type: Number },

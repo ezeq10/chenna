@@ -35,7 +35,7 @@ describe('Products API', function () {
       unit: ['Unidad','Peso'],
       description: 'Es una manzana',
       images: [],
-      price: [{ unit: 'Unidad', value: 2}, { unit: 'Peso', value: 15 }],
+      price: 24,
       defWeight: 1,
       delta: 0.25,
       quantity:10
@@ -46,7 +46,7 @@ describe('Products API', function () {
       unit: ['Unidad','Peso'],
       description: 'Es una manzana de lujo',
       images: [],
-      price: [{ unit: 'Unidad', value: 3}, { unit: 'Peso', value: 16 }],
+      price: 32,
       defWeight: 1,
       delta: 0.30,
       quantity:12

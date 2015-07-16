@@ -14,16 +14,12 @@ angular.module('app.cart', [])
       $scope.cart.items.splice(index, 1);
     }
 
-    
-    /*
-    $scope.total = function() {
+    $scope.getTotal = function() {
       var total = 0;
       angular.forEach($scope.cart.items, function(item) {
         total += item.quantity * item.price;
       });
       return total;
     }
-    */
-
     
   });

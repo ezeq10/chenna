@@ -57,7 +57,7 @@
                 <span>{{ product.name }}</span>
                 <span>{{ product.category }}</span>
                 <span>{{ product.description }}</span>
-                <span>{{ product.price }}</span>
+                <span>{{ product.price | currency }}</span>
                 <span>{{ product.quantity }}</span>
                 <span>{{ product.unit }}</span>
                 <span><img ng-src="/uploads/{{ product.images[0].name }}" class="img-rounded" alt="{{ product.images[0].text }}" width="100" height="75" /></span>
@@ -79,11 +79,12 @@
             <li ng-repeat="item in cart.items">
               <span>{{ item.quantity }}</span>
               <span>{{ item.name }}</span>
-              <span>{{ item.price }}</span>
+              <span>{{ item.price | currency}}</span>
+              <span>{{ (item.quantity * item.price) | currency }}</span>
               <span><button class="btn btn-danger" ng-click="removeItem($index)">Remove item</button></span>
             </li>
             </ul>
-            <div>Total: <span ng-bind="total"></span></div>
+            <div>Total: <span ng-bind="getTotal() | currency"></span></div>
           </div>
         </div>
 
