@@ -13,6 +13,8 @@
   "dependencies": {
     "jquery": "~2.1.4",
     "bootstrap": "~3.3.5",
-    "blueimp-file-upload": "~9.10.4"
+    "blueimp-file-upload": "~9.10.4",
+    "angular": "~1.4.3",
+    "angular-route": "~1.4.3"
   }
 }
