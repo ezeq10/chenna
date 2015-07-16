@@ -9,6 +9,14 @@
     body {
       padding-top: 50px;
     }
+    ul {         
+      padding:0 0 0 0;
+      margin:0 0 0 0;
+    }
+    ul li {
+      list-style:none;
+      margin-bottom:25px;           
+    }
     #divTotal{
       background-color: green;
     }
@@ -52,18 +60,34 @@
             <h3 class="panel-title">Panel title</h3>
           </div>          
           <div class="panel-body">
-            <ul>
-              <li ng-repeat="product in products">
-                <span>{{ product.name }}</span>
-                <span>{{ product.category }}</span>
-                <span>{{ product.description }}</span>
-                <span>{{ product.price | currency }}</span>
-                <span>{{ product.quantity }}</span>
-                <span>{{ product.unit }}</span>
-                <span><img ng-src="/uploads/{{ product.images[0].name }}" class="img-rounded" alt="{{ product.images[0].text }}" width="100" height="75" /></span>
-                <span><button class="btn btn-warning" ng-click="addItem(product)">Add to cart <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></button></span>
-              </li>
-            </ul>
+            <table id="cart" class="table table-bordered">
+              <thead>
+                <tr>
+                  <th style="width:10%">Quantity</th>
+                  <th>Product</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Stock</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="product in products">
+                  <td>
+                    <input type="number" ng-model="product.qty" class="form-control text-center" value="1">
+                  </td>
+                  <td>
+                    {{ product.name }} <br /> 
+                    <img ng-src="/uploads/{{ product.images[0].name }}" class="img-rounded" alt="{{ product.images[0].text }}" width="100" height="75" />
+                  </td>
+                  <td>{{ product.category }}</td>
+                  <td>{{ product.price | currency }}</td>
+                  <td>{{ product.stock }}</td>
+                  <td>
+                    <button class="btn btn-warning" ng-click="addItem(product)">Add to cart <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></button>
+                  </td>   
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -77,10 +101,10 @@
           <div class="panel-body">
             <ul>
             <li ng-repeat="item in cart.items">
-              <span>{{ item.quantity }}</span>
+              <span>{{ item.qty }}</span>
               <span>{{ item.name }}</span>
               <span>{{ item.price | currency}}</span>
-              <span>{{ (item.quantity * item.price) | currency }}</span>
+              <span>{{ (item.qty * item.price) | currency }}</span>
               <span><button class="btn btn-danger" ng-click="removeItem($index)">Remove item</button></span>
             </li>
             </ul>

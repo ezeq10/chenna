@@ -7,7 +7,12 @@ angular.module('app.cart', [])
     $scope.cart = { items: []};
 
     $scope.addItem = function(item) {
-      $scope.cart.items.push(item);
+      //console.log(item)
+      $scope.cart.items.push({ 
+        qty: item.qty,
+        name: item.name,
+        price: item.price 
+      });
     };
 
     $scope.removeItem = function(index) {
@@ -17,7 +22,7 @@ angular.module('app.cart', [])
     $scope.getTotal = function() {
       var total = 0;
       angular.forEach($scope.cart.items, function(item) {
-        total += item.quantity * item.price;
+        total += item.qty * item.price;
       });
       return total;
     }

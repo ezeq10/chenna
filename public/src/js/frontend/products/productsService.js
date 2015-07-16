@@ -10,7 +10,7 @@ angular.module('app.products')
 
         $http.get('/api/products/')
           .success( function(res) {
-            console.log(res.data)
+            //console.log(res.data)
             return cb(null, res.data);
           })
           .error( function(err) {
