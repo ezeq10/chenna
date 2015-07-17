@@ -21,7 +21,7 @@ exports.isAuthorized = function(req, res, next) {
  * Router middleware to check authentication
  */
 exports.isAuthenticated = function(req, res, next) {
-  var token = req.body.token || req.query.token || req.headers['x-access-token'];    
+  var token = req.body.token || req.query.token || req.headers['x-access-token']; 
   if(token) {      
     var decoded = _this.verifyToken(token, function(err, decoded) {
       if(! decoded) {

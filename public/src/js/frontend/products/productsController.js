@@ -8,9 +8,10 @@ angular.module('app.products', [])
 
     $scope.getProducts = function() {
       productsService.getAll( function (err, res) {
-        if(err)
+        if(err) {
           $scope.message = 'No products available';
-
+          return false;
+        }
         $scope.products = res;
       });
     }    
@@ -29,8 +30,10 @@ angular.module('app.products', [])
         if(_qty > 1)
           _qty--;
       }
+
       $scope.products[index].qty = _qty;
     }
+
 
     $scope.getProducts();
   });

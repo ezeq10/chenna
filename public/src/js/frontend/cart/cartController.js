@@ -15,6 +15,11 @@ angular.module('app.cart', [])
         return false;
       }
 
+      if(item.qty > item.stock) {
+        $scope.message = 'No available stock for this item';
+        return false;
+      }
+
       $scope.cart.items.push({ 
         qty: parseInt(item.qty),
         name: item.name,
