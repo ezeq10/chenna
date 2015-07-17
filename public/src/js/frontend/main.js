@@ -4,6 +4,7 @@
 
 var app = angular.module('app', [
   'ngRoute',
+  'LocalStorageModule',
   'app.products',
   'app.cart'
   ])

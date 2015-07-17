@@ -2,14 +2,14 @@
 'use strict';
 
 angular.module('app.cart', [])
-  .controller('cartController', function($scope) {
+  .controller('cartController', function($scope, localStorageService) {
 
     $scope.cart = { items: []};
 
     var _qty = 1;
 
     $scope.addItem = function(item) {
-      
+
       if(isNaN(item.qty) || item.qty < 0) {
         $scope.message = 'You must insert a valid quantity for this item';
         return false;
@@ -20,10 +20,17 @@ angular.module('app.cart', [])
         name: item.name,
         price: item.price 
       });
+
+      // set key
+      localStorageService.set('localStorageCart', $scope.cart);
+
     };
 
     $scope.removeItem = function(index) {
       $scope.cart.items.splice(index, 1);
+
+      localStorageService.remove('localStorageCart');      
+      localStorageService.set('localStorageCart', $scope.cart);
     }
 
     $scope.getTotal = function() {
