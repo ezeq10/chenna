@@ -54,7 +54,7 @@ module.exports = function(app, router, controllers) {
    * Main route
    */
   router.get('/', function(req, res) { 
-    res.render('index');
+    res.render('frontend/index');
   });
 
   app.use(router);

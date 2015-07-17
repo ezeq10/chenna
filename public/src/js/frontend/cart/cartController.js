@@ -6,10 +6,17 @@ angular.module('app.cart', [])
 
     $scope.cart = { items: []};
 
+    var _qty = 1;
+
     $scope.addItem = function(item) {
-      //console.log(item)
+      
+      if(isNaN(item.qty) || item.qty < 0) {
+        $scope.message = 'You must insert a valid quantity for this item';
+        return false;
+      }
+
       $scope.cart.items.push({ 
-        qty: item.qty,
+        qty: parseInt(item.qty),
         name: item.name,
         price: item.price 
       });
@@ -26,5 +33,7 @@ angular.module('app.cart', [])
       });
       return total;
     }
+
     
+
   });
