@@ -6,8 +6,8 @@ angular.module('app.products', [])
 
     $scope.products = [];
 
-    $scope.getProducts = function() {
-      productService.getAll( function (err, res) {
+    $scope.getProducts = function() {      
+      productService.getProducts( function (err, res) {
         if(err) {
           $scope.message = 'No products available';
           return false;
@@ -16,6 +16,17 @@ angular.module('app.products', [])
       });
     }    
 
+    $scope.addItem = function(item) {
+      if(isNaN(item.qty) || item.qty < 0) {
+        $scope.message = 'You must insert a valid quantity for this item';
+        return false;
+      }
+      if(item.qty > item.stock) {
+        $scope.message = 'No available stock for this item';
+        return false;
+      }      
+      productService.addProduct(item);
+    }    
 
     $scope.setQuantity = function (index, upordown) {     
 
@@ -30,10 +41,8 @@ angular.module('app.products', [])
         if(_qty > 1)
           _qty--;
       }
-
       $scope.products[index].qty = _qty;
     }
-
 
     $scope.getProducts();
   });

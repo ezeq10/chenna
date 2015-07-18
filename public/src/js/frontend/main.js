@@ -20,8 +20,7 @@ app.config(['$routeProvider', function($routeProvider) {
 
   $routeProvider
     .when('/', {
-      templateUrl: '/views/frontend/products.html',
-      controller:  'productController'
+      templateUrl: '/views/frontend/products.html'
     })
     .when('/login', {
       templateUrl: '/views/frontend/login.html',
