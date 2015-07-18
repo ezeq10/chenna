@@ -6,7 +6,7 @@ $(document).ready(function() {
       xhr.url = window.location;
       if (localStorage.getItem('userToken')) {
         //console.log(localStorage.getItem('userToken'))
-        xhr.setRequestHeader('x-access-token', localStorage.getItem('userToken'));
+        xhr.setRequestHeader('x-access-token', localStorage.getItem('ls.userToken').replace(/"/g,""));
       }
     }
   });
@@ -16,7 +16,7 @@ $(document).ready(function() {
   $('.nav-link').click( function(e) { 
     e.preventDefault();
     var url = $(this).attr('href');
-    window.location.href = url + '/?token=' + localStorage.getItem('userToken');
+    window.location.href = url + '/?token=' + localStorage.getItem('ls.userToken').replace(/"/g,"");
     return false;
   });
 
@@ -32,6 +32,7 @@ $(document).ready(function() {
 });
 
 function logout() {  
-  localStorage.removeItem('userToken');
+  localStorage.removeItem('ls.userToken');
+  localStorage.removeItem('ls.userProfile');
   window.location.href = "/";
 }

@@ -1,8 +1,8 @@
-// src/js/frontend/products/productsService.js
+// src/js/frontend/products/productService.js
 'use strict';
 
 angular.module('app.products')
-  .factory('productsService', function($http) {
+  .factory('productService', function($http) {
       
     return {
 

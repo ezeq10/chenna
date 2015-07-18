@@ -31,106 +31,48 @@
 </head>
 
 <body>
+  <div class="header-middle"><!--header-middle-->
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="logo pull-left">
+            <a href="#/">El Chango</a>
+          </div>
+          <div class="btn-group pull-right">           
+          </div>
+        </div>
+        <div class="col-sm-8">
+          <div class="shop-menu pull-right">
+            <ul class="nav navbar-nav">
+              <li><a href="#/profile"><i class="fa fa-user"></i> Account</a></li>
+              <li><a href="#/cart"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+              <li><a href="#/checkout"><i class="fa fa-crosshairs"></i> Checkout</a></li>
+              <li><a href="#/login" class="active"><i class="fa fa-lock"></i> Login</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!--/header-middle-->
+  
   <div class="container">
-
+    <!--
     <nav class="navbar navbar-inverse navbar-static-top">
       <div class="container">
         <a class="navbar-brand" href="/">El Chango</a>
         <ul class="nav navbar-nav">
           <li class="active">
-            <a href="/">Home</a>
+            <a href="#/">Home</a>
           </li>
           <li>
-            <a href="/about">About</a>
+            <a href="#/login">Login</a>
           </li>
         </ul>
       </div>
-    </nav>
-    <!--
-    <div ng-controller="MainController">
-      <h3>{{ message }}</h3>
-    </div>-->
-    <div class="row" ng-controller="cartController">
-    
-      <div class="col-xs-7 col-md-8 col-sm-8 col-lg-8" ng-controller="productsController">
+    </nav>-->
 
-        <div ng-bind="message" class="alert alert-warning" data-dismiss="alert"></div>
+    <div id="main" class="container-fluid" ng-view></div>        
 
-        <!-- Products list -->
-        <div class="panel panel-primary">
-          <div class="panel-heading">
-            <h3 class="panel-title">Products</h3>
-          </div>          
-          <div class="panel-body">
-            <table id="cart" class="table table-bordered">
-              <thead>
-                <tr>
-                  <th>Quantity</th>
-                  <th>Product</th>
-                  <th>Category</th>
-                  <th>Price</th>
-                  <th>Stock</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="product in products">
-                  <td>
-                     <span class="glyphicon glyphicon-minus" ng-click="setQuantity($index, 'down')"></span>
-                      <input type="text" class="input-mini" ng-model="product.qty" ng-init="product.qty=1">
-                      <span class="glyphicon glyphicon-plus" ng-click="setQuantity($index, 'up')"></span>
-                  </td>
-                  <td>
-                    {{ product.name }} <br /> 
-                    <img ng-src="/uploads/{{ product.images[0].name }}" class="img-rounded" alt="{{ product.images[0].text }}" width="100" height="75" />
-                  </td>
-                  <td>{{ product.category }}</td>
-                  <td>{{ product.price | currency }}</td>
-                  <td>{{ product.stock }}</td>
-                  <td>
-                    <button class="btn btn-warning" ng-click="addItem(product)">Add to cart <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></button>
-                  </td>   
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-xs-5 col-md-4 col-sm-4 col-lg-4" data-spy="affix">
-        <!-- Cart -->
-        <div class="panel panel-primary">
-          <div id="divTotal" class="panel-heading">
-            <h3 class="panel-title">Cart</h3>
-          </div>
-          <div class="panel-body">
-            <ul>
-            <li ng-repeat="item in cart.items">
-              <span>{{ item.qty }}</span>
-              <span>{{ item.name }}</span>
-              <span>{{ item.price | currency}}</span>
-              <span>{{ (item.qty * item.price) | currency }}</span>
-              <span><button class="btn btn-danger" ng-click="removeItem($index)">Remove item</button></span>
-            </li>
-            </ul>
-            <div>Total: <span ng-bind="getTotal() | currency"></span></div>
-          </div>
-        </div>
-
-        <div class="text-center">
-          <a href="#/checkout" class="btn btn-danger">Checkout <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a>
-        </div>
-      </div>
-
-    </div>
-
-    <div id="main">
-      <div id="sidebar" class="col-sm-3">
-        <div id="login-box"><% include login.html %></div>
-        <div id="register-box" class="hidden"><% include register.html %></div>
-      </div>
-      <div id="content"></div>
-    </div>
-    
   </div>
 
   <footer>
@@ -139,10 +81,11 @@
     <script src="/lib/angular/angular.min.js"></script>
     <script src="/lib/angular-route/angular-route.min.js"></script>
     <script src="/lib/angular-local-storage/dist/angular-local-storage.min.js"></script>
-
-    <script src="/src/js/frontend/users/auth.js"></script>
-    <script src="/src/js/frontend/products/productsController.js"></script>
-    <script src="/src/js/frontend/products/productsService.js"></script>
+    
+    <script src="/src/js/frontend/users/userController.js"></script>
+    <script src="/src/js/frontend/users/userService.js"></script>
+    <script src="/src/js/frontend/products/productController.js"></script>
+    <script src="/src/js/frontend/products/productService.js"></script>
     <script src="/src/js/frontend/cart/cartController.js"></script>
     <script src="/src/js/frontend/main.js"></script>
   

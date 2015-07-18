@@ -1,13 +1,13 @@
-// src/js/frontend/products/productsController.js
+// src/js/frontend/products/productController.js
 'use strict';
 
 angular.module('app.products', [])
-  .controller('productsController', function($scope, productsService) {
+  .controller('productController', function($scope, productService) {
 
     $scope.products = [];
 
     $scope.getProducts = function() {
-      productsService.getAll( function (err, res) {
+      productService.getAll( function (err, res) {
         if(err) {
           $scope.message = 'No products available';
           return false;
