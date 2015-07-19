@@ -1,0 +1,23 @@
+<!-- views/frontend/cart.html -->
+<section id="cart">
+  <div class="panel panel-primary">
+    <div id="divTotal" class="panel-heading">
+      <h3 class="panel-title">Cart</h3>
+    </div>
+    <div class="panel-body">
+      <ul>
+      <li ng-repeat="item in cart">
+        <span>{{ item.qty }}</span>
+        <span>{{ item.name }}</span>
+        <span>{{ item.price | currency}}</span>
+        <span>{{ (item.qty * item.price) | currency }}</span>
+        <span><button class="btn btn-danger" ng-click="removeItem($index)">Remove item</button></span>
+      </li>
+      </ul>
+      <div>Total: <span ng-bind="getTotal() | currency"></span></div>
+    </div>
+  </div>
+  <div class="text-center">
+      <a href="#/checkout" class="btn btn-danger">Checkout <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a>
+  </div>
+</section>

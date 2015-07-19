@@ -3,7 +3,7 @@
 'use strict';
 
 var app = angular.module('app', [
-  'ngRoute',
+  'ui.router',
   'LocalStorageModule',
   'app.users',
   'app.products',
@@ -15,21 +15,36 @@ app.controller('MainController', function($scope) {
   $scope.message = 'This is the main controller';
 });
 
-
-app.config(['$routeProvider', function($routeProvider) {
-
-  $routeProvider
-    .when('/', {
-      templateUrl: '/views/frontend/products.html'
+app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+   
+  $stateProvider
+    .state('home', {
+      url: '/home',      
+      views: {        
+        'main@': { 
+          templateUrl: 'views/frontend/home.html'          
+        },        
+        'products-view@home': { 
+          templateUrl: 'views/frontend/products.html',
+          controller:  'productController'
+        },        
+        'cart-view@home': { 
+          templateUrl: 'views/frontend/cart.html',
+          controller:  'cartController'
+        }
+      }
     })
-    .when('/login', {
-      templateUrl: '/views/frontend/login.html',
-      controller:  'userController'
+    .state('login', {
+      url: '/login',
+      views: {        
+        'main@': { 
+          templateUrl: 'views/frontend/login.html',          
+          controller:  'userController'
+        }
+      } 
     })
-    .otherwise({
-      redirectTo: '/'
-    });
 
+    $urlRouterProvider.otherwise("/home");
 }]);
 
 

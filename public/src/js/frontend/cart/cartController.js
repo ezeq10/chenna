@@ -4,7 +4,7 @@
 angular.module('app.cart', [])
   .controller('cartController', function($scope, productService, localStorageService) {
 
-    $scope.cart = { items: productService.getItems() };
+    $scope.cart = productService.getItems();
 
     $scope.removeItem = function(index) {
       productService.removeProduct(index);
