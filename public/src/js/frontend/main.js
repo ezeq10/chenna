@@ -1,28 +1,31 @@
 // src/js/frontend/main.js
-
 'use strict';
 
+/**
+ * Load main dependencies
+ */
 var app = angular.module('app', [
   'ui.router',
   'LocalStorageModule',
   'app.users',
   'app.products',
-  'app.cart'
+  'app.cart',
+  'app.main'
   ])
 
 
-app.controller('MainController', function($scope) {
-  $scope.message = 'This is the main controller';
-});
-
+/**
+ * Angular UI routing
+ */
 app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
    
   $stateProvider
     .state('home', {
-      url: '/home',      
+      url: '/home',
+      controller: 'applicationController',     
       views: {        
         'main@': { 
-          templateUrl: 'views/frontend/home.html'          
+          templateUrl: 'views/frontend/home.html'        
         },        
         'products-view@home': { 
           templateUrl: 'views/frontend/products.html',
@@ -48,6 +51,10 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 }]);
 
 
+
+/**
+ * HTTP Interceptor, used to attach token data on every request
+ */
 app.config(['$httpProvider', function($httpProvider) {  
   $httpProvider.interceptors.push(['$q', function($q) {
       

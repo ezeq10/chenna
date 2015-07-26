@@ -6,60 +6,32 @@
   <title>El Chango</title>  
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
-  <style type="text/css">
-    body {
-      padding-top: 50px;
-    }
-    ul {         
-      padding:0 0 0 0;
-      margin:0 0 0 0;
-    }
-    ul li {
-      list-style:none;
-      margin-bottom:25px;           
-    }
-    #divTotal{
-      background-color: green;
-    }
-    .affix{
-      right: 0px;
-    }
-    .affix-top{
-      right: 0px;
-      position: fixed;
-    }
-  </style>
+  <link rel="stylesheet" href="/src/css/style.css">
 </head>
 
 <body>
-  <div class="header-middle"><!--header-middle-->
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-4">
-          <div class="logo pull-left">
-            <a href="#/">El Chango</a>
-          </div>
-          <div class="btn-group pull-right">           
-          </div>
-        </div>
-        <div class="col-sm-8">
-          <div class="shop-menu pull-right">
-            <ul class="nav navbar-nav">
-              <li><a href="#/profile"><i class="fa fa-user"></i> Account</a></li>
-              <li><a href="#/cart"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-              <li><a href="#/checkout"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-              <li><a ui-sref="login" ui-sref-active="active"><i class="fa fa-lock"></i> Login</a></li>
-            </ul>
-          </div>
-        </div>
+  <div class="container" ng-controller="applicationController">
+
+    <div class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <ul class="nav navbar-nav">
+          <a href="#/" class="navbar-brand"><i class="ion-images"></i> ElChango</a>
+          <li><a href="#/">Home</a></li>
+          <li><a href="#/login" ui-sref="login">Log in</a></li>
+          <li><a href="#/signup" ui-sref="login">Sign up</a></li>
+        </ul>
       </div>
     </div>
-  </div><!--/header-middle-->
-  
-  <div class="container">
-    <div class="container-fluid" ui-view="main"></div>
-  </div>
 
+    <div ng-if="isAuthenticated()">
+      Welcome, {{ currentUser.name }}
+      <a ng-if="currentUser.admin" href="{{ currentUser.adminPath }}">Go to admin</a> 
+      <a href="javascript:void(0)" ng-click="logout()">Logout</a>
+    </div>
+  
+    <div class="container-fluid" ui-view="main"></div>
+    
+  </div>
   <footer>
     <script src="/lib/jquery/dist/jquery.min.js"></script>
     <script src="/lib/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -72,6 +44,7 @@
     <script src="/src/js/frontend/products/productController.js"></script>
     <script src="/src/js/frontend/products/productService.js"></script>
     <script src="/src/js/frontend/cart/cartController.js"></script>
+    <script src="/src/js/frontend/applicationController.js"></script>
     <script src="/src/js/frontend/main.js"></script>
   
     <p class="text-center text-muted">© Copyright 2015 3StageLabs.com</p>
