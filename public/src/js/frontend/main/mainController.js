@@ -1,8 +1,8 @@
-// src/js/frontend/applicationController.js
+// src/js/frontend/main/mainController.js
 'use strict';
 
 angular.module('app.main', [])
-  .controller('applicationController', function ($scope, $rootScope, $state, userService) {
+  .controller('mainController', function ($scope, $rootScope, $state, userService) {
 
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) { 
       $scope.getCurrentUser();  

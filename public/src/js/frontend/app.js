@@ -1,4 +1,4 @@
-// src/js/frontend/main.js
+// src/js/frontend/app.js
 'use strict';
 
 /**
@@ -22,7 +22,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
   $stateProvider
     .state('home', {
       url: '/home',
-      controller: 'applicationController',     
+      controller: 'mainController',     
       views: {        
         'main@': { 
           templateUrl: 'views/frontend/home.html'        
@@ -39,6 +39,24 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
     })
     .state('login', {
       url: '/login',
+      views: {        
+        'main@': { 
+          templateUrl: 'views/frontend/login.html',          
+          controller:  'userController'
+        }
+      } 
+    })
+    .state('signup', {
+      url: '/signup',
+      views: {        
+        'main@': { 
+          templateUrl: 'views/frontend/signup.html',          
+          controller:  'userController'
+        }
+      } 
+    })
+    .state('account', {
+      url: '/account',
       views: {        
         'main@': { 
           templateUrl: 'views/frontend/login.html',          
