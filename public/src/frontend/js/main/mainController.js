@@ -1,4 +1,4 @@
-// src/js/frontend/main/mainController.js
+// src/frontend/js/main/mainController.js
 'use strict';
 
 angular.module('app.main', [])

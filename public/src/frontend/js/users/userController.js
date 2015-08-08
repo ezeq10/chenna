@@ -1,4 +1,4 @@
-// src/js/frontend/users/userController.js
+// src/frontend/js/users/userController.js
 'use strict';
 
 angular.module('app.users', [])

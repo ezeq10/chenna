@@ -2,9 +2,9 @@
 'use strict';
 
 angular.module('app.cart', [])
-  .controller('cartController', function($scope, productService, localStorageService) {
+  .controller('cartController', function($scope, productService) {
 
-    $scope.items = productService.getItems();
+    $scope.items = productService.getProductList();
 
     $scope.removeItem = function(index) {
       productService.removeProduct(index);
@@ -15,6 +15,8 @@ angular.module('app.cart', [])
       angular.forEach($scope.items, function(item) {
         total += item.qty * item.price;
       });
+
+      productService.setTotal(total);
       return total;
     }
 

@@ -1,4 +1,4 @@
-// src/js/frontend/products/productController.js
+// src/frontend/js/products/productController.js
 'use strict';
 
 angular.module('app.products', [])
@@ -16,7 +16,7 @@ angular.module('app.products', [])
       });
     }    
 
-    $scope.addItem = function(item) {
+    $scope.addProduct = function(item) {
       if(isNaN(item.qty) || item.qty < 0) {
         $scope.message = 'You must insert a valid quantity for this item';
         return false;

@@ -1,4 +1,4 @@
-// src/js/frontend/products/productService.js
+// src/frontend/js/products/productService.js
 'use strict';
 
 angular.module('app.products')
@@ -20,7 +20,7 @@ angular.module('app.products')
           });
       },
 
-      getItems: function(){
+      getProductList: function(){
         productList = localStorageService.get('localStorageCart');
         return productList;
       },
@@ -39,6 +39,14 @@ angular.module('app.products')
         productList.splice(index, 1);
         localStorageService.remove('localStorageCart');      
         localStorageService.set('localStorageCart', productList);
+      },
+
+      setTotal: function(total) {
+        // set key
+        localStorageService.set('localStorageCartTotal', total);
+      },
+      getTotal: function() {
+        return localStorageService.get('localStorageCartTotal');
       }
 
     }

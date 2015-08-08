@@ -1,4 +1,4 @@
-// src/js/frontend/users/userService.js
+// src/frontend/js/users/userService.js
 'use strict';
 
 angular.module('app.users')

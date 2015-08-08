@@ -1,4 +1,4 @@
-// src/js/frontend/app.js
+// src/frontend/js/app.js
 'use strict';
 
 /**
@@ -10,6 +10,7 @@ var app = angular.module('app', [
   'app.users',
   'app.products',
   'app.cart',
+  'app.checkout',
   'app.main'
   ])
 
@@ -64,7 +65,16 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
         }
       } 
     })
-
+    .state('checkout', {
+      url: '/checkout',
+      views: {        
+        'main@': { 
+          templateUrl: 'views/frontend/checkout.html',
+          controller:  'checkoutController'
+        }
+      } 
+    })
+  
     $urlRouterProvider.otherwise("/home");
 }]);
 
