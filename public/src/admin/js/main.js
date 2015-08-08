@@ -4,7 +4,7 @@ $(document).ready(function() {
   $.ajaxSetup({
     beforeSend: function(xhr) {
       xhr.url = window.location;
-      if (localStorage.getItem('userToken')) {
+      if (localStorage.getItem('ls.userToken')) {
         //console.log(localStorage.getItem('userToken'))
         xhr.setRequestHeader('x-access-token', localStorage.getItem('ls.userToken').replace(/"/g,""));
       }
