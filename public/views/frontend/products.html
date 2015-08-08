@@ -1,0 +1,43 @@
+<!-- views/frontend/products.html -->
+<section id="products">
+  <div ng-bind="message" class="alert alert-warning hidden" data-dismiss="alert"></div>
+
+  <!-- Products list -->
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">Products</h3>
+    </div>          
+    <div class="panel-body">
+      <table id="cart" class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Quantity</th>
+            <th>Product</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Stock</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="product in products">
+            <td>
+               <span class="glyphicon glyphicon-minus" ng-click="setQuantity($index, 'down')"></span>
+                <input type="text" class="input-mini" ng-model="product.qty" ng-init="product.qty=1">
+                <span class="glyphicon glyphicon-plus" ng-click="setQuantity($index, 'up')"></span>
+            </td>
+            <td>
+              {{ product.name }} <br /> 
+              <img ng-src="/uploads/{{ product.images[0].name }}" class="img-rounded" alt="{{ product.images[0].text }}" width="100" height="75" />
+            </td>
+            <td>{{ product.category }}</td>
+            <td>{{ product.price | currency }}</td>
+            <td>{{ product.stock }}</td>
+            <td>
+              <button class="btn btn-warning" ng-click="addItem(product)">Add to cart <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></button>
+            </td>   
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

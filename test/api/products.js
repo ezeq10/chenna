@@ -38,7 +38,7 @@ describe('Products API', function () {
       price: 24,
       defWeight: 1,
       delta: 0.25,
-      quantity:10
+      stock: 10
     };
     productObj2Update = {
       name: 'Manzana de lujo',
@@ -49,7 +49,7 @@ describe('Products API', function () {
       price: 32,
       defWeight: 1,
       delta: 0.30,
-      quantity:12
+      stock: 12
     };
 
     // create test user
