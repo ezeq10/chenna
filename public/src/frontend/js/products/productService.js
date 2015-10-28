@@ -2,30 +2,31 @@
 'use strict';
 
 angular.module('app.products')
-  .factory('productService', function($http, localStorageService) {
+  .factory('productService', function ($http, localStorageService) {
     
     var productList = [];
 
     return {
 
-      getProducts: function(cb) {
+      getProducts: function (cb) {
         $http.get('/api/products/')
-          .success( function(res) {
+          .success(function (res) {
             //console.log(res.data)
             return cb(null, res.data);
           })
-          .error( function(err) {
+          .error(function (err) {
             console.error(err)
             return cb(true, err);
           });
       },
 
-      getProductList: function(){
-        productList = localStorageService.get('localStorageCart');
+      getProductList: function () {        
+        if (localStorageService.get('localStorageCart'))
+          productList = localStorageService.get('localStorageCart');
         return productList;
       },
 
-      addProduct: function(item) {        
+      addProduct: function (item) {      
         productList.push({ 
           qty: parseInt(item.qty),
           name: item.name,
@@ -35,17 +36,17 @@ angular.module('app.products')
         localStorageService.set('localStorageCart', productList);
       },
 
-      removeProduct: function(index) {        
+      removeProduct: function (index) {        
         productList.splice(index, 1);
         localStorageService.remove('localStorageCart');      
         localStorageService.set('localStorageCart', productList);
       },
 
-      setTotal: function(total) {
+      setTotal: function (total) {
         // set key
         localStorageService.set('localStorageCartTotal', total);
       },
-      getTotal: function() {
+      getTotal: function () {
         return localStorageService.get('localStorageCartTotal');
       }
 

@@ -7,9 +7,9 @@
         <div class="signup-form"><!--sign up form-->
           <h2>New User Signup!</h2>
           <form id="register-form" ng-submit="signup()">
-            <input type="text" name="name" placeholder="Name"/>
-            <input type="email" name="email" placeholder="Email Address"/>
-            <input type="password" name="password" placeholder="Password"/>
+            <input type="text" name="name" ng-model="name" placeholder="Name"/>
+            <input type="email" name="email" ng-model="email" placeholder="Email Address"/>
+            <input type="password" name="password" ng-model="password" placeholder="Password"/>
             <button type="submit" class="btn btn-default">Signup</button>
           </form>
         </div><!--/sign up form-->

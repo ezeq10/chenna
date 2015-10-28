@@ -37,18 +37,15 @@ app.set('views',__dirname+'/public/views')
 // env settings
 if (env === 'production') {
   app.use(logger('combined'));
-}
-if (env === 'development') {
+} else {
   app.use(logger('dev'));
-}
-if (env === 'test') {
-  //mongoose.set('debug', true);
+  mongoose.set('debug', true);
 }
 
 // mongoose init & connection
 var dbUri = require('./config/database').db[env];
-mongoose.connect(dbUri, function(err, res) {
-  if(err) {
+mongoose.connect(dbUri, function (err, res) {
+  if (err) {
     console.log('[db] error connecting: ' + err);
     process.exit(0);
   }
@@ -65,13 +62,13 @@ var router = express.Router();
 var routes = require('./app/routes')(app, router, controllers);
 
 // catch 404 and forward to error handler
-app.use(function(req, res){
+app.use(function (req, res) {
   res.status(404).send('Not Found');
 });
 
 // init server
-app.listen(port, function() {
-  if(env !== 'production')
+app.listen(port, function () {
+  if (env !== 'production')
     console.log('Listening on port %d in %s mode.', this.address().port, env);  
 });
 

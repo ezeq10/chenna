@@ -18,7 +18,7 @@ var app = angular.module('app', [
 /**
  * Angular UI routing
  */
-app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
    
   $stateProvider
     .state('home', {
@@ -83,22 +83,22 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 /**
  * HTTP Interceptor, used to attach token data on every request
  */
-app.config(['$httpProvider', function($httpProvider) {  
+app.config(['$httpProvider', function ($httpProvider) {  
   $httpProvider.interceptors.push(['$q', function($q) {
       
     return {
-      request: function(config) {
+      request: function (config) {
         config.headers = config.headers || {};
         var token = localStorage.getItem('userToken');
         //console.log(token);
 
-        if(token) {
+        if (token) {
           config.headers['x-access-token'] = token;
         }
         return config;
       },
 
-      responseError: function(response) {
+      responseError: function (response) {
         //console.log('res' + response)
         return $q.reject(response);
       }

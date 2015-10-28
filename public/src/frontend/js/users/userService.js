@@ -2,17 +2,16 @@
 'use strict';
 
 angular.module('app.users')
-  .factory('userService', function($http, localStorageService) {
+  .factory('userService', function ($http, localStorageService) {
    
     var _currentUser;
 
     return {
 
-      login: function(formData, cb) {
+      login: function (formData, cb) {
 
         $http.post('/login', formData)
-          .success( function(res) {
-
+          .success(function (res) {
             _currentUser = {
               id:         res.profile._id,
               name:       res.profile.name,
@@ -25,16 +24,16 @@ angular.module('app.users')
             
             return cb(null, res);
           })
-          .error( function(err) {
+          .error(function (err) {
             console.error(err)
             return cb(true, err);
           });
       },
 
-      register: function(formData, cb) {
+      register: function (formData, cb) {
 
         $http.post('/register', formData)
-          .success( function(res) {
+          .success(function (res) {
 
             _currentUser = {
               id:         res.profile._id,
@@ -48,21 +47,21 @@ angular.module('app.users')
             
             return cb(null, res);
           })
-          .error( function(err) {
+          .error(function (err) {
             console.error(err)
             return cb(true, err);
           });
       },
 
-      isAuthenticated: function() {
+      isAuthenticated: function () {
         return (localStorageService.get('userToken')) ? true : false;
       },
 
-      getCurrentUser: function() {        
+      getCurrentUser: function () {        
         return localStorageService.get('userProfile');
       },
 
-      logout: function() {
+      logout: function () {
         _currentUser = {};
         localStorageService.remove('userToken');
         localStorageService.remove('userProfile');
