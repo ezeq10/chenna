@@ -1,4 +1,4 @@
-# Elchango E-commerce #
+# Chenna E-commerce #
 
 Step 1
 Clone repo
