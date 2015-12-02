@@ -16,7 +16,8 @@
           <th>Category</th>
           <th>Unit</th>
           <th>Description</th>
-          <th>Quantity</th>
+          <th>Stock</th>
+          <th>Price</th>
           <th>Enabled</th>
           <th>Actions</th>
         </tr>
@@ -29,6 +30,7 @@
           <td><%= item.unit %></td>
           <td><%= item.description %></td>
           <td><%= item.stock %></td>
+          <td><%= item.price %></td>
           <td><%= item.isEnabled %></td>          
           <td>
             <span><a class="images-products-btn" href="javascript:void" data-item-id="<%= item._id %>">manage images</a></span> |

@@ -43,7 +43,7 @@ describe('Order API', function () {
       unit: ['Unidad','Peso'],
       description: 'Es una manzana',
       images: [{ name: 'manzana01.jpg', text: 'texto de imagen'}],
-      price: [{ unit: 'Unidad', value: 2}, { unit: 'Peso', value: 15 }],
+      price: 15,
       defWeight: 1,
       delta: 0.25
     }, {
@@ -52,7 +52,7 @@ describe('Order API', function () {
       unit: ['Unidad','Peso'],
       description: 'Es una naranja',
       images: [{ name: 'naranja01.jpg', text: 'texto de imagen'}],
-      price: [{ unit: 'Unidad', value: 3}, { unit: 'Peso', value: 20 }],
+      price: 20,
       defWeight: 2,
       delta: 0.50
     }];

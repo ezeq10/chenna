@@ -11,12 +11,12 @@ module.exports = function(app, router, controllers) {
    */
   router.delete('/api/products/:product_id/images/:image_id', auth.isAuthenticated, controllers.products.delImage); 
   router.post('/api/products/:product_id/images', auth.isAuthenticated, controllers.products.addImage); 
-  router.get('/api/products/search/:category', auth.isAuthenticated, controllers.products.findAll);  
+  router.get('/api/products/search/:category', controllers.products.findAll);
   router.delete('/api/products/:product_id', auth.isAuthenticated, controllers.products.delete);
   router.put('/api/products/:product_id', auth.isAuthenticated, controllers.products.update);
-  router.get('/api/products/:product_id', auth.isAuthenticated, controllers.products.findById);
+  router.get('/api/products/:product_id', controllers.products.findById);
   router.post('/api/products', auth.isAuthenticated, controllers.products.add);
-  router.get('/api/products', auth.isAuthenticated, controllers.products.findAll);
+  router.get('/api/products', controllers.products.findAll);
 
   /**
    * Orders API endpoints
@@ -54,7 +54,7 @@ module.exports = function(app, router, controllers) {
    * Main route
    */
   router.get('/', function(req, res) { 
-    res.render('index');
+    res.render('frontend/index');
   });
 
   app.use(router);
