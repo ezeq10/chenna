@@ -19,6 +19,15 @@ module.exports = function(app, router, controllers) {
   router.get('/api/products', controllers.products.findAll);
 
   /**
+   * Categories API endpoints
+   */  
+  router.delete('/api/categories/:category_id', auth.isAuthenticated, controllers.categories.delete);
+  router.put('/api/categories/:category_id', auth.isAuthenticated, controllers.categories.update);
+  router.get('/api/categories/:category_id', auth.isAuthenticated, controllers.categories.findById);  
+  router.post('/api/categories', auth.isAuthenticated, controllers.categories.add);
+  router.get('/api/categories', auth.isAuthenticated, controllers.categories.findAll);
+
+  /**
    * Orders API endpoints
    */  
   router.delete('/api/orders/:order_id', auth.isAuthenticated, controllers.orders.delete);
@@ -45,7 +54,8 @@ module.exports = function(app, router, controllers) {
   /**
    * Admin routes
    */
-  router.get('/admin/products', auth.isAuthenticated, auth.isAuthorized, controllers.admin_products.index); 
+  router.get('/admin/products', auth.isAuthenticated, auth.isAuthorized, controllers.admin_products.index);
+  router.get('/admin/categories', auth.isAuthenticated, auth.isAuthorized, controllers.admin_categories.index);
   router.get('/admin/orders', auth.isAuthenticated, auth.isAuthorized, controllers.admin_orders.index); 
   router.get('/admin/users', auth.isAuthenticated, auth.isAuthorized, controllers.admin_users.index);
   router.get('/admin', auth.isAuthenticated, auth.isAuthorized, controllers.admin.index);

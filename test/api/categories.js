@@ -1,4 +1,4 @@
-// test/api/order.js
+// test/api/categories.js
 'use strict';
 
 // force the test environment to 'test'
@@ -13,12 +13,11 @@ var mongoose = require('mongoose');
 var app = require('../../server');
 
 // models
-var Product = mongoose.model('Product');
-var Order = mongoose.model('Order');
+var Category = mongoose.model('Category');
 var User = mongoose.model('User');
 
 //Testing
-describe('Order API', function () {
+describe('Categories API', function () {
   
   var lastInsertedId;
   var userObj;
@@ -26,71 +25,24 @@ describe('Order API', function () {
   var userId;
 
   // datasets
-  var productsArray;
-  var orderObj;
-  var orderObj2Update;
+  var categoryObj;
+  var categoryObj2Update;
 
   before( function (done) {
 
     userObj = {
-      email: 'user1@user1.com',
+      email: 'user2@user2.com',
       password: 'password'
-    };  
-    // create test products dataset
-    productsArray = [{
-      name: 'Manzana',
-      category: 'fruits',
-      unit: ['Unidad','Peso'],
-      description: 'Es una manzana',
-      images: [{ name: 'manzana01.jpg', text: 'texto de imagen'}],
-      price: 15,
-      defWeight: 1,
-      delta: 0.25
-    }, {
-      name: 'Naranja',
-      category: 'fruits',
-      unit: ['Unidad','Peso'],
-      description: 'Es una naranja',
-      images: [{ name: 'naranja01.jpg', text: 'texto de imagen'}],
-      price: 20,
-      defWeight: 2,
-      delta: 0.50
-    }];
+    };
 
     // create test order dataset
-    orderObj = {
-      products: [],
-      code: 1234,
-      gift: '',
-      subtotal: 12,
-      shipping: 5,
-      total: 17,
-      comments: 'Entregar temprano'
+    categoryObj = {
+      name: 'Fruits'
     };
-    orderObj2Update = {
-      products: [],
-      code: 1235,
-      gift: '',
-      subtotal: 10,
-      shipping: 2,
-      total: 12,
-      comments: 'Entregar tarde'
+    categoryObj2Update = {
+      name: 'Clothes'
     };
 
-    // create products
-    Product.create(productsArray, function(err, data) {
-      if(err) 
-        return done(err);
-
-      // set products for both datasets
-      orderObj.products.push({ quantity: 1, product: data[0].id });
-      orderObj2Update.products.push({ quantity: 1, product: data[0].id },
-                                    { quantity: 3, product: data[1].id });
-      
-      //console.log(JSON.stringify(orderObj))
-      //console.log(JSON.stringify(orderObj2Update))
-    });
-    
     // register user
     supertest(app)
       .post('/register')
@@ -119,10 +71,6 @@ describe('Order API', function () {
               // save user token
               token = res.body.token;
               userId = res.body.profile._id;
-              
-              // set user for both order datasets
-              orderObj.user = userId;
-              orderObj2Update.user = userId;
 
               return done();
             });
@@ -130,11 +78,11 @@ describe('Order API', function () {
   });
 
 
-  it('should save an order data object', function (done) {
+  it('should save a category data object', function (done) {
     supertest(app)
-      .post('/api/orders')
+      .post('/api/categories')
       .set('x-access-token', token)
-      .send(orderObj)
+      .send(categoryObj)
       .expect(201)
       .end(function(err, res) {
         if(err)
@@ -151,9 +99,9 @@ describe('Order API', function () {
       });
   });
   
-  it('should get an array of orders', function (done) {
+  it('should get an array of categories', function (done) {
     supertest(app)
-      .get('/api/orders')
+      .get('/api/categories')
       .set('x-access-token', token)
       .expect(200)
       .end(function(err, res) {
@@ -166,9 +114,9 @@ describe('Order API', function () {
       });
   });
   
-  it('should get an order object by id', function (done) {
+  it('should get a category object by id', function (done) {
     supertest(app)
-      .get('/api/orders/'+ lastInsertedId)
+      .get('/api/categories/'+ lastInsertedId)
       .set('x-access-token', token)
       .expect(200)
       .end(function(err, res) {
@@ -181,11 +129,11 @@ describe('Order API', function () {
       });
   });
   
-  it('should update an order object', function (done) {
+  it('should update a category object', function (done) {
     supertest(app)
-      .put('/api/orders/'+ lastInsertedId)
+      .put('/api/categories/'+ lastInsertedId)
       .set('x-access-token', token)
-      .send(orderObj2Update)
+      .send(categoryObj2Update)
       .expect('Content-Type', /json/)
       .expect(200)
       .end(function(err, res) {
@@ -196,9 +144,9 @@ describe('Order API', function () {
       });
   });
   
-  it('should delete an order object', function (done) {
+  it('should delete an category object', function (done) {
     supertest(app)
-      .delete('/api/orders/'+ lastInsertedId)
+      .delete('/api/categories/'+ lastInsertedId)
       .set('x-access-token', token)
       .expect('Content-Type', /json/)
       .expect(200)
@@ -211,8 +159,7 @@ describe('Order API', function () {
   }); 
   
   after( function (done) {
-    Order.remove().exec();
-    Product.remove().exec();
+    Category.remove().exec();
     User.remove().exec();
     done();
   });

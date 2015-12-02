@@ -1,0 +1,48 @@
+<% include partials/header.html %>
+
+<body class="container">
+  <header>
+    <% include partials/nav.html %>
+  </header>
+  <main>    
+    <h3>Categories</h3>
+    <div id="content" class="col-md-12">
+    <% if(data) { %>      
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>Name</th>
+          <th>isEnabled</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% data.forEach(function(item) { %>
+        <tr>
+          <td><%= item.name %></td>
+          <td><%= item.isEnabled %></td>
+          <td>
+            <span><a class="update-categories-btn" href="javascript:void" data-item-id="<%= item._id %>">edit</a></span> |
+            <span><a class="delete-categories-btn" href="javascript:void" data-item-id="<%= item._id %>">remove</a></span>            
+          </td>
+        </tr> 
+        <% }); %>     
+        </tbody>  
+      </table>
+
+    <% } else { %>    
+      <p> No items available </p>
+    <% } %>    
+    </div>
+
+    <div class="col-xs-3">
+      <button type="button" id="add-categories-btn" class="btn btn-warning btn-lg">Add new category</button>
+    </div>
+    <div id="categories-box" class="col-xs-9 hidden">
+      <% include partials/categories_form.html %>
+    </div>
+  </main>
+  <div style="clear:both;"></div>
+  <% include partials/footer.html %>
+</body>
+</html>

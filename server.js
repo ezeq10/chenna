@@ -39,7 +39,7 @@ if (env === 'production') {
   app.use(logger('combined'));
 } else {
   app.use(logger('dev'));
-  mongoose.set('debug', true);
+  mongoose.set('debug', false);
 }
 
 // mongoose init & connection
